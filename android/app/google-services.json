@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "404759955921",
+    "project_id": "snapnews-82ce0",
+    "storage_bucket": "snapnews-82ce0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404759955921:android:1d2f3dafb685027c61f8f0",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCP-XRmcb0UpkZP0ov6MqR8YE5JkW5NAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
