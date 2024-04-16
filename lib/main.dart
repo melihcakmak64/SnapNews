@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/firebase_options.dart';
+import 'package:flutter_application_1/view/AuthScreen/ForgatPasswordPage.dart';
 import 'package:flutter_application_1/view/AuthScreen/LoginPage.dart';
+import 'package:flutter_application_1/view/AuthScreen/RegisterPage.dart';
+import 'package:flutter_application_1/view/WelcomePage.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() async {
@@ -20,7 +23,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: WelcomePage(),
     );
   }
 }

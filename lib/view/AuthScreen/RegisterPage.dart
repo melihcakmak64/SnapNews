@@ -1,12 +1,14 @@
 import 'package:auth_buttons/auth_buttons.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/view/widgets/loginRow.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/view/widgets/myButton.dart';
 import 'package:flutter_application_1/view/widgets/myTextButton.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,27 +27,35 @@ class LoginPage extends StatelessWidget {
               const Text("Login", style: TextStyle(fontSize: 32)),
               const TextField(
                 decoration: InputDecoration(
-                    hintText: "Enter your email address or username",
-                    label: Text("Enter your email address or username")),
+                    hintText: "Enter your email address",
+                    label: Text("Enter your email address")),
+              ),
+              const TextField(
+                decoration: InputDecoration(
+                    hintText: "Enter your username",
+                    label: Text("Enter your username")),
               ),
               const TextField(
                 decoration: InputDecoration(
                     hintText: "Enter your password",
                     label: Text("Enter your Password")),
               ),
+              const TextField(
+                decoration: InputDecoration(
+                    hintText: "Country/Region", label: Text("Country/Region")),
+              ),
               MyButton(
-                buttonText: "LOGIN",
+                buttonText: "REGISTER",
                 buttonColor: Colors.grey,
                 onTap: () {},
               ),
-              MyTextButton(buttonText: "Forgot password?", onTap: () {}),
               GoogleAuthButton(
                 onPressed: () {},
               ),
               FacebookAuthButton(
                 onPressed: () {},
               ),
-              const Text("Don't have an account? Register"),
+              const Text("You already have account? Login"),
               SizedBox(
                 height: Get.size.height * 0.05,
               )

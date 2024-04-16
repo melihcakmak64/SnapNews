@@ -13,10 +13,10 @@ class MyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.all(10),
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: InkWell(
+        onTap: onTap,
         child: Container(
           height: Get.size.height * 0.08,
           width: double.infinity,
