@@ -46,7 +46,7 @@ class _NewsScreenState extends State<NewsScreen> {
               margin: EdgeInsets.all(8.0),
               child: TextField(
                 decoration: InputDecoration(
-                  labelText: 'Check the latest news',
+                  hintText: 'Check the latest news',
                   fillColor: Colors.grey,
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
