@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/view/widgets/NewsTypeWidget.dart';
+import 'package:flutter_application_1/view/widgets/newsTypeWidget.dart';
 
 class InterestsScreen extends StatefulWidget {
   @override

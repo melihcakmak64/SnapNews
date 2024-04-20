@@ -14,7 +14,8 @@ class WelcomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+            padding: const EdgeInsets.only(
+                top: 20.0), // The text was moved down a bit: "What are you".
             child: const Text("What are you?",
                 style: TextStyle(
                     fontSize: 30,
