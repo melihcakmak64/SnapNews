@@ -1,46 +1,51 @@
 import 'package:flutter/material.dart';
 
 // This is a widget for prints and use for selecting news type that we interested in.
-class NewsTypeWidget extends StatelessWidget {
-  // Add a final String parameter newsType
+class TypeWidget extends StatelessWidget {
   final String newsType;
+  final bool isSelected;
+  final double screenWidth;
+  final double screenHeight;
+  final VoidCallback onTap;
 
-  // Require the parameter in the constructor
-  const NewsTypeWidget({Key? key, required this.newsType}) : super(key: key);
+  const TypeWidget({
+    Key? key,
+    required this.newsType,
+    required this.screenHeight,
+    required this.screenWidth,
+    this.isSelected = false,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(25),
-      decoration: BoxDecoration(
-        color: Colors.grey[300], // Background color of the widget
-        borderRadius: BorderRadius.circular(25), // Match the border radius
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(
-            newsType, // newsType parameter for the text
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.all(3),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.blue : Colors.grey[200],
+          borderRadius: BorderRadius.circular(22),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              newsType,
+              style: TextStyle(
+                fontSize: screenWidth / 28,
+                fontWeight: FontWeight.bold,
+                color: isSelected ? Colors.white : Colors.black,
+              ),
             ),
-          ),
-          SizedBox(width: 35), // Space between text and button
-          SizedBox(
-            width: 40,
-            height: 40,
-            child: FloatingActionButton(
-              onPressed: () {
-                // Action when button is pressed
-              },
-              child: Icon(Icons.add),
-              backgroundColor: Colors.white, // Button background color
-              foregroundColor: Colors.black, // Icon color
-              elevation: 0, // Remove shadow
+            Icon(
+              Icons.add,
+              size: screenWidth / 20,
+              color: isSelected ? Colors.white : Colors.black,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
