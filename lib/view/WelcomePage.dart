@@ -13,9 +13,14 @@ class WelcomePage extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text("What are you?",
-              style: TextStyle(
-                  fontSize: 30, fontWeight: FontWeight.w700, letterSpacing: 5)),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: const Text("What are you?",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 5)),
+          ),
           _myContainer("Explore latest news", "Stay connected & informed"),
           _myContainer("Find trending topics", "Stay ahead and engaged"),
           _myContainer("Be conscious", "Changes are happening every day"),
