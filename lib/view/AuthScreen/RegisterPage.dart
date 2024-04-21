@@ -25,7 +25,7 @@ class RegisterPage extends StatelessWidget {
                 "SnapNews",
                 style: TextStyle(fontSize: 48),
               ),
-              const Text("Login", style: TextStyle(fontSize: 32)),
+              const Text("Create Account", style: TextStyle(fontSize: 32)),
               const TextField(
                 decoration: InputDecoration(
                     hintText: "Enter your email address",
