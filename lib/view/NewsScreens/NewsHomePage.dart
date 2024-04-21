@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/view/NewsScreens/AIChatPage.dart';
+import 'package:flutter_application_1/view/NewsScreens/ProfilePage.dart';
 import 'package:flutter_application_1/view/widgets/newsPreviewWidget.dart';
 
 class NewsScreen extends StatefulWidget {
@@ -13,10 +15,14 @@ class _NewsScreenState extends State<NewsScreen> {
     setState(() {
       _selectedIndex = index;
       if (_selectedIndex == 1) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ChatPage()));
       } // Navigate to the AIChat screen
       else if (_selectedIndex == 2) {
       } // Navigate to the Saved screen
       else if (_selectedIndex == 3) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ProfileScreen()));
       } // Navigate to the Profile screen
       else {
         // Stay at Home screen
