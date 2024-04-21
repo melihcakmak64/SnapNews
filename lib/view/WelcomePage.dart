@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/view/AuthScreen/LoginPage.dart';
 import 'package:flutter_application_1/view/widgets/myButton.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -25,7 +26,10 @@ class WelcomePage extends StatelessWidget {
           _myContainer("Explore latest news", "Stay connected & informed"),
           _myContainer("Find trending topics", "Stay ahead and engaged"),
           _myContainer("Be conscious", "Changes are happening every day"),
-          _myButton("Get started", () {})
+          _myButton("Get started", () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => LoginPage()));
+          })
         ],
       )),
     );
