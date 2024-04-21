@@ -1,5 +1,7 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/view/AuthScreen/ForgatPasswordPage.dart';
+import 'package:flutter_application_1/view/AuthScreen/RegisterPage.dart';
 import 'package:flutter_application_1/view/widgets/loginRow.dart';
 import 'package:flutter_application_1/view/widgets/myButton.dart';
 import 'package:flutter_application_1/view/widgets/myTextButton.dart';
@@ -38,14 +40,28 @@ class LoginPage extends StatelessWidget {
                 buttonColor: Colors.grey,
                 onTap: () {},
               ),
-              MyTextButton(buttonText: "Forgot password?", onTap: () {}),
+              MyTextButton(
+                  buttonText: "Forgot password?",
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResetPasswordPage()));
+                  }),
               GoogleAuthButton(
                 onPressed: () {},
               ),
               FacebookAuthButton(
                 onPressed: () {},
               ),
-              const Text("Don't have an account? Register"),
+              MyTextButton(
+                  buttonText: "Don't have an account? Register",
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegisterPage()));
+                  }),
               SizedBox(
                 height: Get.size.height * 0.05,
               )

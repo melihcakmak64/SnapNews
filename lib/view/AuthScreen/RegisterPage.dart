@@ -2,6 +2,7 @@ import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/view/AuthScreen/LoginPage.dart';
 import 'package:flutter_application_1/view/widgets/myButton.dart';
 import 'package:flutter_application_1/view/widgets/myTextButton.dart';
 import 'package:get/get.dart';
@@ -55,7 +56,12 @@ class RegisterPage extends StatelessWidget {
               FacebookAuthButton(
                 onPressed: () {},
               ),
-              const Text("You already have account? Login"),
+              MyTextButton(
+                  buttonText: "You already have account? Login",
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
+                  }),
               SizedBox(
                 height: Get.size.height * 0.05,
               )
