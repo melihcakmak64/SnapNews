@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/view/NewsScreens/InterestPage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -65,8 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       _nameController.text = nameFromDb;
       _emailController.text = emailFromDb;
-      // For security reasons, it's not common to fetch and display passwords
-      _passwordController.text = ''; // Leave it empty or use dummy data
+      _passwordController.text = ''; // use dummy data
     });
   }
 
@@ -78,7 +76,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text(
+          'Profile',
+          style: TextStyle(fontSize: screenWidth / 12),
+        ),
         centerTitle: true,
         backgroundColor: Colors.grey,
       ),
@@ -108,7 +109,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    _pickImageFromGallery();
+                    if (_isEditing) {
+                      _pickImageFromGallery();
+                    }
                   },
                   child: CircleAvatar(
                     radius: 50,
@@ -180,8 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             trailing: IconButton(
               icon: Icon(Icons.arrow_forward_ios),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => InterestsScreen()));
+                // TODO: Implement navigation to preferences
               },
             ),
           ),

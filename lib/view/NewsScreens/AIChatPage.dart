@@ -21,7 +21,12 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: const Text('SnapNews AI Chatbot'),
+        title: const Text(
+          'SnapNews AI Chatbot',
+          style: TextStyle(fontSize: 28),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.grey,
       ),
       body: Column(
         children: [

@@ -2,6 +2,8 @@ import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/view/AuthScreen/ForgatPasswordPage.dart';
 import 'package:flutter_application_1/view/AuthScreen/RegisterPage.dart';
+import 'package:flutter_application_1/view/HomePage.dart';
+import 'package:flutter_application_1/view/NewsScreens/NewsHomePage.dart';
 import 'package:flutter_application_1/view/widgets/loginRow.dart';
 import 'package:flutter_application_1/view/widgets/myButton.dart';
 import 'package:flutter_application_1/view/widgets/myTextButton.dart';
@@ -38,7 +40,13 @@ class LoginPage extends StatelessWidget {
               MyButton(
                 buttonText: "LOGIN",
                 buttonColor: Colors.grey,
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                    (Route<dynamic> route) => false,
+                  );
+                },
               ),
               MyTextButton(
                   buttonText: "Forgot password?",
