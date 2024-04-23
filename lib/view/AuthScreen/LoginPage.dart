@@ -1,5 +1,6 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/loginController.dart';
 import 'package:flutter_application_1/view/AuthScreen/ForgatPasswordPage.dart';
 import 'package:flutter_application_1/view/AuthScreen/RegisterPage.dart';
 import 'package:flutter_application_1/view/HomePage.dart';
@@ -10,7 +11,8 @@ import 'package:flutter_application_1/view/widgets/myTextButton.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+  final LoginController _loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,25 +29,27 @@ class LoginPage extends StatelessWidget {
                 style: TextStyle(fontSize: 48),
               ),
               const Text("Login", style: TextStyle(fontSize: 32)),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                onChanged: (value) {
+                  _loginController.email.value = value;
+                },
+                decoration: const InputDecoration(
                     hintText: "Enter your email address or username",
                     label: Text("Enter your email address or username")),
               ),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                onChanged: (value) {
+                  _loginController.password.value = value;
+                },
+                decoration: const InputDecoration(
                     hintText: "Enter your password",
                     label: Text("Enter your Password")),
               ),
               MyButton(
                 buttonText: "LOGIN",
                 buttonColor: Colors.grey,
-                onTap: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                    (Route<dynamic> route) => false,
-                  );
+                onTap: () async {
+                  await _loginController.login();
                 },
               ),
               MyTextButton(
@@ -54,7 +58,7 @@ class LoginPage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ResetPasswordPage()));
+                            builder: (context) => const ResetPasswordPage()));
                   }),
               GoogleAuthButton(
                 onPressed: () {},

@@ -1,15 +1,15 @@
 import 'package:auth_buttons/auth_buttons.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/controllers/registerController.dart';
+import 'package:flutter_application_1/services/AuthService.dart';
 import 'package:flutter_application_1/view/AuthScreen/LoginPage.dart';
 import 'package:flutter_application_1/view/widgets/myButton.dart';
 import 'package:flutter_application_1/view/widgets/myTextButton.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
+  RegisterPage({super.key});
+  final RegisterController _registerController = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,29 +26,44 @@ class RegisterPage extends StatelessWidget {
                 style: TextStyle(fontSize: 48),
               ),
               const Text("Create Account", style: TextStyle(fontSize: 32)),
-              const TextField(
+              TextField(
+                onChanged: (value) {
+                  _registerController.email.value = value;
+                },
                 decoration: InputDecoration(
-                    hintText: "Enter your email address",
-                    label: Text("Enter your email address")),
+                  hintText: "Enter your email address",
+                  label: Text("Enter your email address"),
+                ),
               ),
-              const TextField(
+              TextField(
+                onChanged: (value) {
+                  _registerController.username.value = value;
+                },
                 decoration: InputDecoration(
                     hintText: "Enter your username",
                     label: Text("Enter your username")),
               ),
-              const TextField(
+              TextField(
+                onChanged: (value) {
+                  _registerController.password.value = value;
+                },
                 decoration: InputDecoration(
                     hintText: "Enter your password",
                     label: Text("Enter your Password")),
               ),
-              const TextField(
+              TextField(
+                onChanged: (value) {
+                  _registerController.country.value = value;
+                },
                 decoration: InputDecoration(
                     hintText: "Country/Region", label: Text("Country/Region")),
               ),
               MyButton(
                 buttonText: "REGISTER",
                 buttonColor: Colors.grey,
-                onTap: () {},
+                onTap: () async {
+                  await _registerController.register();
+                },
               ),
               GoogleAuthButton(
                 onPressed: () {},
