@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
     NewsScreen(),
     ChatPage(),
     SavedNewsScreen(),
-    ProfileScreen(),
+    MainSettingsScreen(),
   ];
 
   void _onItemTapped(int index) {
