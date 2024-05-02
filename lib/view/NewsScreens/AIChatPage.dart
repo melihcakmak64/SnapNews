@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/view/widgets/aiChatWidget.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
+// news api key fdc847a945174558b58c08dcff436349
+
 class ChatPage extends StatefulWidget {
   const ChatPage({
     super.key,
@@ -32,11 +34,22 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           listDatas.isEmpty
               ? Expanded(
-                  child: Center(
-                    child: Text(
-                      "Ask whatever you want!",
-                      style: Theme.of(context).textTheme.headlineMedium!,
-                      textAlign: TextAlign.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(50.0),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'images/ai_logo.jpeg',
+                          width: 50,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "How can I help you?",
+                          style: Theme.of(context).textTheme.headlineMedium!,
+                        ),
+                      ],
                     ),
                   ),
                 )
@@ -63,8 +76,8 @@ class _ChatPageState extends State<ChatPage> {
                                   .bodyMedium!
                                   .copyWith(
                                     color: index.isOdd
-                                        ? Colors.yellow
-                                        : Colors.blue,
+                                        ? Color.fromARGB(255, 0, 0, 0)
+                                        : Color.fromARGB(255, 0, 0, 0),
                                   ),
                             ),
                           ),
@@ -86,7 +99,7 @@ class _ChatPageState extends State<ChatPage> {
             },
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(bottom: 50, left: 20, right: 20),
             child: Row(
               children: [
                 Expanded(
@@ -99,7 +112,7 @@ class _ChatPageState extends State<ChatPage> {
                       hintText: "Enter a Prompt ...",
                       contentPadding: const EdgeInsets.all(10),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
@@ -121,9 +134,9 @@ class _ChatPageState extends State<ChatPage> {
                         await _searchContent();
                       },
                       child: const Icon(
-                        Icons.send,
-                        size: 25,
-                        color: Colors.blue,
+                        Icons.arrow_forward_ios_rounded,
+                        size: 30,
+                        color: Colors.black,
                       ),
                     );
                   },
