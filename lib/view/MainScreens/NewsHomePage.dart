@@ -17,7 +17,7 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   void initState() {
     super.initState();
-    _refreshNews();
+    getNews('bbc-news');
   }
 
   Future<void> _refreshNews() async {

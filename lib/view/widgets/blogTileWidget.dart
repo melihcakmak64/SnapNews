@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/newsProviders/article_model.dart';
-import 'package:flutter_application_1/view/MainScreens/innerNewsScreen.dart';
+import 'package:flutter_application_1/view/MainScreens/DetailPage.dart';
 import 'package:flutter_application_1/view/widgets/savedButton.dart';
 
 class BlogTile extends StatefulWidget {
