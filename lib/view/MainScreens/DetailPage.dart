@@ -3,21 +3,21 @@ import 'package:flutter_application_1/newsProviders/article_model.dart';
 import 'package:flutter_application_1/view/widgets/savedButton.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class NewsArticleScreen extends StatefulWidget {
+class DetailsScreen extends StatefulWidget {
   final Article news;
   final bool initialBookmarkStatus;
 
-  NewsArticleScreen({
+  DetailsScreen({
     Key? key,
     required this.news,
     required this.initialBookmarkStatus,
   }) : super(key: key);
 
   @override
-  _NewsArticleScreenState createState() => _NewsArticleScreenState();
+  _DetailsScreenState createState() => _DetailsScreenState();
 }
 
-class _NewsArticleScreenState extends State<NewsArticleScreen> {
+class _DetailsScreenState extends State<DetailsScreen> {
   late bool isBookmarked;
 
   @override

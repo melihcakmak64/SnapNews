@@ -29,7 +29,7 @@ class _BlogTileState extends State<BlogTile> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => NewsArticleScreen(
+            builder: (context) => DetailsScreen(
               news: widget.news1,
               initialBookmarkStatus: isBookmarked,
             ),
