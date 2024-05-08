@@ -20,7 +20,7 @@ class UserProfileView extends StatelessWidget {
     final double screenHeight = screenSize.height;
 
     return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 40, bottom: 7),
+      padding: const EdgeInsets.only(left: 0, right: 0, top: 40, bottom: 7),
       child: Container(
         width: screenHeight / 2,
         height: screenHeight / 4,

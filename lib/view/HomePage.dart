@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/view/NewsScreens/AIChatPage.dart';
-import 'package:flutter_application_1/view/NewsScreens/NewsHomePage.dart';
-import 'package:flutter_application_1/view/NewsScreens/ProfilePage.dart';
-import 'package:flutter_application_1/view/NewsScreens/SavedNewsPage.dart';
+import 'package:flutter_application_1/view/MainScreens/AIChatPage.dart';
+import 'package:flutter_application_1/view/MainScreens/NewsHomePage.dart';
+import 'package:flutter_application_1/view/MainScreens/ProfilePage.dart';
+import 'package:flutter_application_1/view/MainScreens/SavedNewsPage.dart';
 
 class HomePage extends StatefulWidget {
   @override

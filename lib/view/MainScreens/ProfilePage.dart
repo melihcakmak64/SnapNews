@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/profileScreens/accountTile.dart';
 import 'package:flutter_application_1/profileScreens/editProfileScreen.dart';
 import 'package:flutter_application_1/profileScreens/userProfileStless.dart';
-import 'package:flutter_application_1/view/NewsScreens/InterestPage.dart';
+import 'package:flutter_application_1/view/AuthScreen/LoginPage.dart';
+import 'package:flutter_application_1/view/MainScreens/InterestPage.dart';
 
 class MainSettingsScreen extends StatefulWidget {
   @override
@@ -30,17 +33,75 @@ class _SettingsScreen2 extends State<MainSettingsScreen> {
           title: Text('Personal Information'),
           backgroundColor: Colors.grey),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            UserProfileView(
-              name: 'John Doe',
-              email: 'johndoe@example.com',
-              imageUrl: 'https://via.placeholder.com/150',
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 7),
-              child: Container(
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 7),
+          child: Column(
+            children: [
+              UserProfileView(
+                name: 'John Doe',
+                email: 'johndoe@example.com',
+                imageUrl: 'https://via.placeholder.com/150',
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    SwitchListTile(
+                      title: Text('Notifications'),
+                      value: _isNotificationsEnabled,
+                      onChanged: _toggleNotifications,
+                      secondary: Icon(_isNotificationsEnabled
+                          ? Icons.notifications_active
+                          : Icons.notifications_off),
+                    ),
+                    ListTile(
+                      title: Text('Preferences'),
+                      trailing: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InterestsScreen()),
+                          );
+                        },
+                        child: Icon(Icons.arrow_forward_ios),
+                      ),
+                    ),
+                    ListTile(
+                      title: Text('Settings'),
+                      trailing: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditSettingsScreen()),
+                          );
+                        },
+                        child: Icon(Icons.settings),
+                      ),
+                    ),
+                    ListTile(
+                      title: Text('Log out'),
+                      trailing: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                          );
+                        },
+                        child: Icon(Icons.logout),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(10),
@@ -81,41 +142,8 @@ class _SettingsScreen2 extends State<MainSettingsScreen> {
                   ],
                 ),
               ),
-            ),
-            SwitchListTile(
-              title: Text('Notifications'),
-              value: _isNotificationsEnabled,
-              onChanged: _toggleNotifications,
-              secondary: Icon(_isNotificationsEnabled
-                  ? Icons.notifications_active
-                  : Icons.notifications_off),
-            ),
-            ListTile(
-              title: Text('Preferences'),
-              trailing: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => InterestsScreen()),
-                  );
-                },
-                child: Icon(Icons.arrow_forward_ios),
-              ),
-            ),
-            ListTile(
-              title: Text('Settings'),
-              trailing: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditSettingsScreen()),
-                  );
-                },
-                child: Icon(Icons.settings),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/user_model.dart';
-import 'package:flutter_application_1/view/NewsScreens/NewsHomePage.dart';
+import 'package:flutter_application_1/view/HomePage.dart';
+import 'package:flutter_application_1/view/MainScreens/NewsHomePage.dart';
 import 'package:get/get.dart';
 
 class AuthService {
@@ -29,7 +30,7 @@ class AuthService {
             password: password,
             country: country,
             userId: userCredential.user!.uid);
-        Get.offAll(NewsScreen());
+        Get.offAll(HomePage());
         await getCurrentUserModel();
       }
     } on FirebaseAuthException catch (e) {
@@ -46,7 +47,7 @@ class AuthService {
       if (userCredential.user != null) {
         await getCurrentUserModel();
 
-        Get.offAll(NewsScreen());
+        Get.offAll(HomePage());
       }
     } on FirebaseAuthException catch (e) {
       // Fluttertoast.showToast(msg: e.message!, toastLength: Toast.LENGTH_LONG);
