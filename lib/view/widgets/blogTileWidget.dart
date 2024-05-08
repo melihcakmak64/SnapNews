@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/newsProviders/categories_news_model.dart';
+import 'package:flutter_application_1/newsProviders/article_model.dart';
 import 'package:flutter_application_1/view/MainScreens/innerNewsScreen.dart';
 import 'package:flutter_application_1/view/widgets/savedButton.dart';
 
 class BlogTile extends StatefulWidget {
-  final Articles news1;
+  final Article news1;
 
   BlogTile({required this.news1});
 

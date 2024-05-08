@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/newsProviders/categories_news_model.dart';
+import 'package:flutter_application_1/newsProviders/article_model.dart';
 import 'package:flutter_application_1/view/widgets/savedButton.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NewsArticleScreen extends StatefulWidget {
-  final Articles news;
+  final Article news;
   final bool initialBookmarkStatus;
 
   NewsArticleScreen({

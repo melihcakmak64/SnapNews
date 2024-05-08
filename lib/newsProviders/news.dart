@@ -17,7 +17,7 @@ class News {
               title: element["title"],
               description: element["description"],
               url: element["url"],
-              urlToImg: element["urlToImage"],
+              urlToImage: element["urlToImage"],
               content: element["content"],
               author: element["author"]);
           news.add(article);
