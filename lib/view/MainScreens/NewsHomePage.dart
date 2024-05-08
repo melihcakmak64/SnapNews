@@ -6,6 +6,8 @@ import 'package:flutter_application_1/newsProviders/categories_news_model.dart';
 import 'package:flutter_application_1/newsProviders/news_channels_headlines_model.dart';
 import 'package:flutter_application_1/newsProviders/news_repository.dart';
 import 'package:flutter_application_1/view/MainScreens/innerNewsScreen.dart';
+import 'package:flutter_application_1/view/widgets/savedButton.dart';
+import 'package:get/get.dart';
 
 class NewsScreen extends StatefulWidget {
   @override
@@ -184,7 +186,7 @@ class _NewsScreenState extends State<NewsScreen> {
 }
 
 class BlogTile extends StatelessWidget {
-  Articles news1;
+  final Articles news1;
 
   BlogTile({
     required this.news1,
@@ -197,9 +199,10 @@ class BlogTile extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => NewsArticleScreen(
-                    news: news1,
-                  )),
+            builder: (context) => NewsArticleScreen(
+              news: news1,
+            ),
+          ),
         );
       },
       child: Padding(
@@ -220,12 +223,26 @@ class BlogTile extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(news1.title!,
-                        style: Theme.of(context).textTheme.headline6),
-                    SizedBox(height: 10),
+                    Expanded(
+                      child: Text(
+                        news1.title!,
+                        style: Theme.of(context).textTheme.headline6,
+                        maxLines:
+                            null, // Allow the text to wrap onto multiple lines
+                      ),
+                    ),
+                    SizedBox(width: 8.0),
+                    BookmarkToggleButton(
+                      initialState:
+                          false, // Set an initial state for the bookmark
+                      onToggle: (bool isBookmarked) {
+                        // TODO Handle the bookmark state (e.g., save state to a database)
+                        ////////////////////////////////////////////////////////////////////////////////
+                      },
+                    ),
                   ],
                 ),
               ),
