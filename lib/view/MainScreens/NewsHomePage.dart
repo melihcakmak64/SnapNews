@@ -1,13 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/newsProviders/categories_news_model.dart';
 import 'package:flutter_application_1/newsProviders/news_channels_headlines_model.dart';
 import 'package:flutter_application_1/newsProviders/news_repository.dart';
-import 'package:flutter_application_1/view/MainScreens/innerNewsScreen.dart';
-import 'package:flutter_application_1/view/widgets/savedButton.dart';
-import 'package:get/get.dart';
+import 'package:flutter_application_1/view/widgets/blogTileWidget.dart';
 
 class NewsScreen extends StatefulWidget {
   @override
@@ -132,122 +127,6 @@ class _NewsScreenState extends State<NewsScreen> {
                         ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-  /* Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'SnapNews',
-          style: TextStyle(fontSize: 30),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Check the latest news',
-                fillColor: Colors.grey[300],
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-              ),
-            ),
-          ),
-          Expanded(
-            child: _loading
-                ? Center(child: CircularProgressIndicator())
-                : articles.isEmpty
-                    ? Center(child: Text('No news available'))
-                    : ListView.builder(
-                        itemCount: articles.length > maxArticles
-                            ? maxArticles
-                            : articles.length,
-                        itemBuilder: (context, index) {
-                          return BlogTile(
-                            news1: articles[index],
-                          );
-                        },
-                      ),
-          ),
-        ],
-      ),
-    ); 
-  }*/
-}
-
-class BlogTile extends StatelessWidget {
-  final Articles news1;
-
-  BlogTile({
-    required this.news1,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NewsArticleScreen(
-              news: news1,
-            ),
-          ),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Material(
-          elevation: 3.0,
-          borderRadius: BorderRadius.circular(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CachedNetworkImage(
-                imageUrl: news1.urlToImage!,
-                height: 200,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        news1.title!,
-                        style: Theme.of(context).textTheme.headline6,
-                        maxLines:
-                            null, // Allow the text to wrap onto multiple lines
-                      ),
-                    ),
-                    SizedBox(width: 8.0),
-                    BookmarkToggleButton(
-                      initialState:
-                          false, // Set an initial state for the bookmark
-                      onToggle: (bool isBookmarked) {
-                        // TODO Handle the bookmark state (e.g., save state to a database)
-                        ////////////////////////////////////////////////////////////////////////////////
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

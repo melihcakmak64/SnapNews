@@ -1,43 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/newsProviders/categories_news_model.dart';
+import 'package:flutter_application_1/view/widgets/savedButton.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class NewsArticleScreen extends StatelessWidget {
-  Articles news;
+class NewsArticleScreen extends StatefulWidget {
+  final Articles news;
+  final bool initialBookmarkStatus;
 
   NewsArticleScreen({
     Key? key,
     required this.news,
+    required this.initialBookmarkStatus,
   }) : super(key: key);
 
-  Future<void> _launchInBrowser(String url) async {
-    final Uri uri = Uri(
-      scheme: "https",
-      path: url,
-    );
-    if (await canLaunchUrl(uri)) {
-      bool launched = await launchUrl(
-        uri,
-        mode: LaunchMode.externalApplication,
-      );
-      if (!launched) {
-        throw 'Could not launch $url';
-      }
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  @override
+  _NewsArticleScreenState createState() => _NewsArticleScreenState();
+}
 
-  Future<void> _saveArticle() async {
-    // Show a toast or a snackbar
-    print("Article Saved!");
+class _NewsArticleScreenState extends State<NewsArticleScreen> {
+  late bool isBookmarked;
+
+  @override
+  void initState() {
+    super.initState();
+    isBookmarked = widget.initialBookmarkStatus;
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> parts = news.publishedAt!.split('T');
+    List<String> parts = widget.news.publishedAt!.split('T');
     String date = parts[0];
     String time = parts[1].substring(0, 8);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('News'),
@@ -48,7 +42,7 @@ class NewsArticleScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              news.urlToImage!,
+              widget.news.urlToImage!,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -63,9 +57,7 @@ class NewsArticleScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(
-                    width: 20,
-                  ),
+                  SizedBox(width: 20),
                   Text(
                     time,
                     style: TextStyle(
@@ -73,13 +65,18 @@ class NewsArticleScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  Expanded(child: SizedBox(width: 5)),
+                  BookmarkToggleButton(
+                    initialState: isBookmarked,
+                    onToggle: (isBookmarked) {},
+                  ),
                 ],
               ),
             ),
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                news.title!,
+                widget.news.title!,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -99,20 +96,18 @@ class NewsArticleScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                news.description!,
+                widget.news.description!,
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.grey[800],
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                news.source?.name ?? '',
+                widget.news.source?.name ?? '',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -121,10 +116,11 @@ class NewsArticleScreen extends StatelessWidget {
             ),
             Row(
               children: [
+                Expanded(child: SizedBox(width: 5)),
                 Padding(
                   padding: const EdgeInsets.all(25),
                   child: ElevatedButton(
-                    onPressed: () => _saveArticle,
+                    onPressed: () {}, // Implement summarization
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.grey[300],
@@ -132,22 +128,7 @@ class NewsArticleScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    child: Text("Save the News"),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: ElevatedButton(
-                    onPressed: () =>
-                        print("iÇERİK ${news.content}"), // Launching the URL
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.grey[300],
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    child: Text("View full article"),
+                    child: Text("Summarize"),
                   ),
                 ),
               ],
