@@ -12,12 +12,23 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   List<Article> articles = [];
   bool _loading = true;
-  int maxArticles = 10;
+  List<Article> filteredArticles = [];
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     getNews('bbc-news');
+  }
+
+  void filterArticles(String query) {
+    List<Article> filtered = articles.where((article) {
+      return article.title!.toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
+    setState(() {
+      filteredArticles = filtered;
+    });
   }
 
   Future<void> _refreshNews() async {
@@ -36,6 +47,7 @@ class _NewsScreenState extends State<NewsScreen> {
           await newsRepo.fetchNewsChannelHealinesApi(channel);
       articles = (news.articles)!;
       setState(() {
+        filteredArticles = articles;
         _loading = false;
       });
     } catch (e) {
@@ -58,31 +70,38 @@ class _NewsScreenState extends State<NewsScreen> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Check the latest news',
-                  fillColor: Colors.grey[300],
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
+              padding: const EdgeInsets.all(12.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: TextField(
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Check the latest news',
+                    fillColor: Colors.grey[300],
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 10.0),
                   ),
-                  filled: true,
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                  onChanged: (value) {
+                    filterArticles(value);
+                  },
                 ),
               ),
             ),
             Expanded(
               child: _loading
                   ? Center(child: CircularProgressIndicator())
-                  : articles.isEmpty
+                  : filteredArticles.isEmpty
                       ? Center(child: Text('No news available'))
                       : ListView.builder(
-                          itemCount: articles.length,
+                          itemCount: filteredArticles.length,
                           itemBuilder: (context, index) {
                             return BlogTile(
-                              news1: articles[index],
+                              news1: filteredArticles[index],
                             );
                           },
                         ),
