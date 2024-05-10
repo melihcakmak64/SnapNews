@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/newsProviders/article_model.dart';
-import 'package:flutter_application_1/view/widgets/savedButton.dart';
+import 'package:flutter_application_1/controllers/newsController.dart';
+import 'package:flutter_application_1/models/article_model.dart';
+import 'package:flutter_application_1/view/widgets/toogleButton.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -19,6 +21,7 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   late bool isBookmarked;
+  NewsController newsController = Get.find();
 
   @override
   void initState() {
@@ -66,10 +69,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                   ),
                   Expanded(child: SizedBox(width: 5)),
-                  BookmarkToggleButton(
-                    initialState: isBookmarked,
-                    onToggle: (isBookmarked) {},
-                  ),
+                  ToogleButton(
+                    isBookmarked: isBookmarked,
+                    onTap: () {
+                      if (isBookmarked == false) {
+                        newsController.favorites.add(widget.news);
+                        print(newsController.favorites);
+                      } else {
+                        newsController.favorites.remove(widget.news);
+                      }
+                      setState(() {
+                        isBookmarked = !isBookmarked;
+                      });
+                    },
+                  )
                 ],
               ),
             ),

@@ -34,7 +34,7 @@ class NewsPreviewWidget extends StatelessWidget {
         children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
-            child: Image.asset(
+            child: Image.network(
               imageUrl,
               height: 200,
               fit: BoxFit.cover,

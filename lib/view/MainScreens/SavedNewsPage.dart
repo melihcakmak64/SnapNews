@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/newsController.dart';
+import 'package:flutter_application_1/view/widgets/blogTileWidget.dart';
 import 'package:flutter_application_1/view/widgets/newsPreviewWidget.dart';
+import 'package:get/get.dart';
 
-class SavedNewsScreen extends StatefulWidget {
-  const SavedNewsScreen({super.key});
+class SavedNewsScreen extends StatelessWidget {
+  SavedNewsScreen({super.key});
 
-  @override
-  State<SavedNewsScreen> createState() => _SavedNewsScreenState();
-}
-
-class _SavedNewsScreenState extends State<SavedNewsScreen> {
   // Dummy data for the list of articles
   final List<Map<String, String>> articles = [
     {
@@ -19,7 +17,7 @@ class _SavedNewsScreenState extends State<SavedNewsScreen> {
     },
     // Add more articles here
   ];
-
+  NewsController newsController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,15 +30,13 @@ class _SavedNewsScreenState extends State<SavedNewsScreen> {
         backgroundColor: Colors.grey,
       ),
       backgroundColor: Colors.white, // Set the background color to white
-      body: ListView.builder(
-        itemCount: articles.length,
-        itemBuilder: (BuildContext context, int index) {
-          return NewsPreviewWidget(
-            title: articles[index]['title']!,
-            content: articles[index]['content']!,
-            imageUrl: articles[index]['imageUrl']!,
-          );
-        },
+      body: Obx(
+        () => ListView.builder(
+          itemCount: newsController.favorites.length,
+          itemBuilder: (BuildContext context, int index) {
+            return BlogTile(news1: newsController.favorites[index]);
+          },
+        ),
       ),
     );
   }

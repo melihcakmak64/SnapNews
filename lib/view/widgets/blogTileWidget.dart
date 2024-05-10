@@ -1,37 +1,29 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/newsProviders/article_model.dart';
+import 'package:flutter_application_1/controllers/newsController.dart';
+import 'package:flutter_application_1/models/article_model.dart';
 import 'package:flutter_application_1/view/MainScreens/DetailPage.dart';
-import 'package:flutter_application_1/view/widgets/savedButton.dart';
+import 'package:flutter_application_1/view/widgets/toogleButton.dart';
+import 'package:get/get.dart';
 
-class BlogTile extends StatefulWidget {
+class BlogTile extends StatelessWidget {
   final Article news1;
 
   BlogTile({required this.news1});
 
-  @override
-  _BlogTileState createState() => _BlogTileState();
-}
-
-class _BlogTileState extends State<BlogTile> {
-  bool isBookmarked = false;
-
-  void _updateBookmarkStatus(bool status) {
-    setState(() {
-      isBookmarked = status;
-    });
-  }
+  final NewsController newsController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    bool isFavorite = newsController.favorites.contains(news1);
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => DetailsScreen(
-              news: widget.news1,
-              initialBookmarkStatus: isBookmarked,
+              news: news1,
+              initialBookmarkStatus: newsController.favorites.contains(news1),
             ),
           ),
         );
@@ -45,7 +37,7 @@ class _BlogTileState extends State<BlogTile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CachedNetworkImage(
-                imageUrl: widget.news1.urlToImage!,
+                imageUrl: news1.urlToImage ?? "",
                 height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -59,18 +51,28 @@ class _BlogTileState extends State<BlogTile> {
                   children: [
                     Expanded(
                       child: Text(
-                        widget.news1.title!,
+                        news1.title!,
                         style: Theme.of(context).textTheme.headline6,
                         maxLines:
                             null, // Allow the text to wrap onto multiple lines
                       ),
                     ),
                     SizedBox(width: 8.0),
-                    BookmarkToggleButton(
-                      initialState: isBookmarked,
-                      onToggle: (bool newBookmarkStatus) {
-                        _updateBookmarkStatus(newBookmarkStatus);
-                        print("Bookmark status updated: $newBookmarkStatus");
+                    Obx(
+                      () {
+                        var favorites = newsController.favorites;
+                        bool isFavorite = favorites.contains(news1);
+
+                        return ToogleButton(
+                          isBookmarked: isFavorite,
+                          onTap: () {
+                            if (isFavorite == false) {
+                              favorites.add(news1);
+                            } else {
+                              favorites.remove(news1);
+                            }
+                          },
+                        );
                       },
                     ),
                   ],
