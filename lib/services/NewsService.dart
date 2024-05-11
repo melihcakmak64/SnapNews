@@ -13,7 +13,9 @@ class NewsService {
         final Map<String, dynamic> responseData = json.decode(response.body);
         if (responseData['status'] == 'ok') {
           final List<dynamic> articlesJson = responseData['articles'];
-          return articlesJson.map((json) => Article.fromJson(json)).toList();
+          return articlesJson.map((json) {
+            return Article.fromJson(json);
+          }).toList();
         } else {
           throw Exception('Failed to load articles');
         }
