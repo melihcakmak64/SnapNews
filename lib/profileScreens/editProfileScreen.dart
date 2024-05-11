@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/profileController.dart';
+import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/profileScreens/userProfileStful.dart';
+import 'package:get/get.dart';
 
-class EditSettingsScreen extends StatefulWidget {
-  @override
-  _EditSettingsScreenState createState() => _EditSettingsScreenState();
-}
-
-class _EditSettingsScreenState extends State<EditSettingsScreen> {
-  bool _isEditing = false;
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
-  void _toggleEditing() {
-    setState(() {
-      _isEditing = !_isEditing;
-    });
-  }
-
-  void _updateProfile() {
-    // Implement the logic to update the profile here
-    _toggleEditing(); // Turn off editing mode after updating
-  }
+class EditSettingsScreen extends StatelessWidget {
+  final ProfileController profileController = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _nameController =
+        TextEditingController(text: profileController.name.value);
+    TextEditingController _emailController =
+        TextEditingController(text: profileController.email.value);
+    TextEditingController _passwordController =
+        TextEditingController(text: profileController.password.value);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile Settings'),
@@ -32,34 +23,37 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            UserProfileEdit(
-                name: _nameController.text, email: _emailController.text),
-            _editableListTile(
-              context,
-              'Name',
-              _nameController,
-              Icons.person,
+            Obx(
+              () => UserProfileEdit(
+                name: profileController.name.value,
+                email: profileController.email.value,
+              ),
             ),
-            _editableListTile(
-              context,
-              'Email',
-              _emailController,
-              Icons.email,
-            ),
+            _editableListTile(context, 'Name', _nameController, Icons.person,
+                (value) {
+              profileController.name.value = _nameController.text;
+            }),
+            _editableListTile(context, 'Email', _emailController, Icons.email,
+                (value) {
+              profileController.email.value = _emailController.text;
+            }),
             _editableListTile(
               context,
               'Password',
               _passwordController,
               Icons.lock,
+              (value) {
+                profileController.password.value = _passwordController.text;
+              },
               isPassword: true,
             ),
             SizedBox(height: 10.0),
-            if (_isEditing)
-              ElevatedButton(
-                onPressed: _updateProfile,
-                child: Container(
-                    color: Colors.grey[300], child: Text('Update Information')),
-              ),
+            ElevatedButton(
+              onPressed: () {
+                profileController.updateProfile();
+              },
+              child: Text('Update Information'),
+            ),
           ],
         ),
       ),
@@ -70,25 +64,18 @@ class _EditSettingsScreenState extends State<EditSettingsScreen> {
     BuildContext context,
     String label,
     TextEditingController controller,
-    IconData icon, {
+    IconData icon,
+    void Function(String)? onChanged, {
     bool isPassword = false,
   }) {
     return ListTile(
       leading: Icon(icon),
-      title: _isEditing
-          ? TextFormField(
-              controller: controller,
-              decoration: InputDecoration(labelText: label),
-              obscureText: isPassword,
-              readOnly: !_isEditing,
-            )
-          : Text('$label: ${controller.text}'),
-      trailing: Icon(Icons.edit),
-      onTap: () {
-        if (!_isEditing) {
-          _toggleEditing();
-        }
-      },
+      title: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(labelText: label),
+        obscureText: isPassword,
+        onChanged: onChanged,
+      ),
     );
   }
 }

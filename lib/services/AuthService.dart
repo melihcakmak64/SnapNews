@@ -86,4 +86,27 @@ class AuthService {
       }
     }
   }
+
+  Future<void> changePassword(String newPassword) async {
+    try {
+      final user = firebaseAuth.currentUser;
+      if (user != null) {
+        await user.updatePassword(newPassword);
+        // Şifre değiştirme başarılı olduğunda bir bildirim veya işlem yapılabilir.
+        print("Şifre değiştirme başarılı!");
+      } else {
+        // Kullanıcı oturum açmamışsa hata mesajı gösterilebilir.
+        throw FirebaseAuthException(
+          code: "user-not-found",
+          message: "Kullanıcı oturum açmamış.",
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      // Hata durumunda uygun işlemler yapılabilir.
+      print("Şifre değiştirme hatası: ${e.message}");
+      // Hata mesajını kullanıcıya göstermek için Get.snackbar gibi bir metod kullanılabilir.
+      Get.snackbar("Şifre değiştirme hatası", e.message!,
+          backgroundColor: Colors.red);
+    }
+  }
 }

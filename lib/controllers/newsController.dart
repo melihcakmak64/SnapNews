@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/article_model.dart';
+import 'package:flutter_application_1/services/FavoritesService.dart';
 import 'package:flutter_application_1/services/NewsService.dart';
 import 'package:get/get.dart';
 
@@ -12,10 +13,11 @@ class NewsController extends GetxController {
   late final NewsService newsService;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     newsService = NewsService();
-    getNews('bbc-news');
+    await fetchFavorites();
+    await getNews('bbc-news');
   }
 
   void filterArticles(String query) {
@@ -33,7 +35,7 @@ class NewsController extends GetxController {
     }
   }
 
-  void getNews(String channel) async {
+  Future<void> getNews(String channel) async {
     isLoading.value = true;
     try {
       articles.value = await newsService.fetchArticles();
@@ -44,5 +46,20 @@ class NewsController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> fetchFavorites() async {
+    favorites.value = await FavoritesService.instance.fetchFavorites();
+    print(favorites);
+  }
+
+  Future<void> addFavorites(Article article) async {
+    favorites.add(article);
+    await FavoritesService.instance.addFavorites(article);
+  }
+
+  Future<void> removeFavorites(Article article) async {
+    favorites.remove(article);
+    await FavoritesService.instance.removeFavorites(article);
   }
 }

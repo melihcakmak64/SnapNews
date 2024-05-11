@@ -7,16 +7,6 @@ import 'package:get/get.dart';
 class SavedNewsScreen extends StatelessWidget {
   SavedNewsScreen({super.key});
 
-  // Dummy data for the list of articles
-  final List<Map<String, String>> articles = [
-    {
-      'title': 'Breaking News Title',
-      'content': 'Here is some content for the breaking news...',
-      'imageUrl':
-          'images/download.jpg', // Replace with actual asset or network image
-    },
-    // Add more articles here
-  ];
   NewsController newsController = Get.find();
   @override
   Widget build(BuildContext context) {

@@ -1,143 +1,60 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_application_1/profileScreens/accountTile.dart';
-import 'package:flutter_application_1/profileScreens/editProfileScreen.dart';
+import 'package:flutter_application_1/controllers/profileController.dart';
+
 import 'package:flutter_application_1/profileScreens/userProfileStless.dart';
-import 'package:flutter_application_1/view/AuthScreen/LoginPage.dart';
-import 'package:flutter_application_1/view/MainScreens/InterestPage.dart';
 
-class MainSettingsScreen extends StatefulWidget {
-  @override
-  _SettingsScreen2 createState() => _SettingsScreen2();
-}
+import 'package:get/get.dart';
 
-class _SettingsScreen2 extends State<MainSettingsScreen> {
-  bool _isNotificationsEnabled = false;
-
-  void _toggleNotifications(bool value) {
-    setState(() {
-      _isNotificationsEnabled = value;
-      // TODO: Integrate notification enabling/disabling logic here !!!!!!!! TODO
-    });
-  }
+class ProfilePage extends StatelessWidget {
+  final ProfileController _profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-    final double screenWidth = screenSize.width;
-    final double screenHeight = screenSize.height;
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          title: Text('Personal Information'),
-          backgroundColor: Colors.grey),
+        centerTitle: true,
+        title: const Text('Personal Information'),
+        backgroundColor: Colors.grey,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding:
               const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 7),
           child: Column(
             children: [
-              UserProfileView(
-                name: 'John Doe',
-                email: 'johndoe@example.com',
-                imageUrl: 'https://via.placeholder.com/150',
-              ),
+              Obx(() => UserProfileView(
+                    name: _profileController.name.value,
+                    email: _profileController.email.value,
+                    imageUrl: _profileController.imageUrl.value,
+                  )),
               Container(
-                margin: EdgeInsets.only(bottom: 10),
+                margin: const EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
                   children: [
-                    SwitchListTile(
-                      title: Text('Notifications'),
-                      value: _isNotificationsEnabled,
-                      onChanged: _toggleNotifications,
-                      secondary: Icon(_isNotificationsEnabled
-                          ? Icons.notifications_active
-                          : Icons.notifications_off),
-                    ),
                     ListTile(
-                      title: Text('Preferences'),
+                      title: const Text('Preferences'),
                       trailing: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => InterestsScreen()),
-                          );
-                        },
-                        child: Icon(Icons.arrow_forward_ios),
+                        onTap: _profileController.goToInterests,
+                        child: const Icon(Icons.arrow_forward_ios),
                       ),
                     ),
                     ListTile(
-                      title: Text('Settings'),
+                      title: const Text('Settings'),
                       trailing: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditSettingsScreen()),
-                          );
-                        },
-                        child: Icon(Icons.settings),
+                        onTap: _profileController.goToEditProfile,
+                        child: const Icon(Icons.settings),
                       ),
                     ),
                     ListTile(
-                      title: Text('Log out'),
+                      title: const Text('Log out'),
                       trailing: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()),
-                          );
-                        },
-                        child: Icon(Icons.logout),
+                        onTap: _profileController.logOut,
+                        child: const Icon(Icons.logout),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text('Connected Accounts',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                    ),
-                    AccountTile(
-                      name: 'X',
-                      leadingIcon: Padding(
-                        padding: const EdgeInsets.only(left: 1.0),
-                        child: Image.asset("images/x_logo.jpg",
-                            height: 30, fit: BoxFit.cover),
-                      ),
-                    ),
-                    AccountTile(
-                      name: 'Google',
-                      leadingIcon: Image.network(
-                        'http://pngimg.com/uploads/google/google_PNG19635.png',
-                        width: 30,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    AccountTile(
-                      name: 'Apple',
-                      leadingIcon: Icon(Icons.apple, size: 30),
-                      initiallyConnected: true,
-                    ),
-                    AccountTile(
-                      name: 'Facebook',
-                      leadingIcon: Icon(Icons.facebook, size: 30),
                     ),
                   ],
                 ),

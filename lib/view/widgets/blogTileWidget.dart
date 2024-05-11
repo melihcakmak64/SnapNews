@@ -65,11 +65,11 @@ class BlogTile extends StatelessWidget {
 
                         return ToogleButton(
                           isBookmarked: isFavorite,
-                          onTap: () {
+                          onTap: () async {
                             if (isFavorite == false) {
-                              favorites.add(news1);
+                              await newsController.addFavorites(news1);
                             } else {
-                              favorites.remove(news1);
+                              await newsController.removeFavorites(news1);
                             }
                           },
                         );

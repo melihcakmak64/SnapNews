@@ -1,86 +1,111 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/view/AuthScreen/LoginPage.dart';
-import 'package:flutter_application_1/view/widgets/myButton.dart';
+import 'package:flutter_application_1/view/OnboardingPage.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+class WelcomePage extends StatefulWidget {
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  late final PageController _pageController;
+  int _activePage = 0;
+
+  @override
+  void initState() {
+    _pageController = PageController();
+    super.initState();
+  }
+
+  final List<OnboardingPage> pages = [
+    const OnboardingPage(
+      description: 'News according\nto your\nPreference and\nInterest',
+      image: 'images/image1.png',
+    ),
+    const OnboardingPage(
+      description: 'Read anytime\nanywhere',
+      image: 'images/image2.png',
+    ),
+    const OnboardingPage(
+      description: 'Find trending\n topics stay ahead \nand engaged',
+      image: 'images/image3.png',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 20.0), // The text was moved down a bit: "What are you".
-            child: const Text("What are you?",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 5)),
+          PageView.builder(
+            controller: _pageController,
+            onPageChanged: (value) {
+              setState(() {
+                _activePage = value;
+              });
+            },
+            itemCount: pages.length,
+            itemBuilder: (context, index) {
+              return pages[index % pages.length];
+            },
           ),
-          _myContainer("Explore latest news", "Stay connected & informed"),
-          _myContainer("Find trending topics", "Stay ahead and engaged"),
-          _myContainer("Be conscious", "Changes are happening every day"),
-          _myButton("Get started", () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LoginPage()));
-          })
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(
+                    pages.length,
+                    (index) => Container(
+                      height: 5,
+                      width: 35,
+                      color: _activePage == index ? Colors.black : Colors.white,
+                      margin: const EdgeInsets.only(right: 10),
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Implement Continue button functionality
+                    if (_activePage < pages.length - 1) {
+                      // If not on the last page, move to the next page
+                      _pageController.nextPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.ease,
+                      );
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "Continue",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff424242), // Arka plan rengi
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Get.offAll(() => LoginPage());
+                  },
+                  child: const Text(
+                    "Skip",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
-      )),
+      ),
     );
   }
-}
-
-Widget _myContainer(String header, String body) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 8),
-    child: Container(
-      decoration: BoxDecoration(
-          color: Color.fromARGB(255, 244, 243, 243),
-          borderRadius: BorderRadius.circular(25)),
-      height: Get.size.height * 0.20,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(header,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 5)),
-            Text(body,
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w700))
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-Widget _myButton(String buttonText, final void Function() onTap) {
-  return Padding(
-    padding: const EdgeInsets.all(10),
-    child: InkWell(
-      onTap: onTap,
-      child: Container(
-        height: Get.size.height * 0.08,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Center(
-            child: Text(
-          buttonText,
-          style: const TextStyle(color: Colors.white, fontSize: 24),
-        )),
-      ),
-    ),
-  );
 }
