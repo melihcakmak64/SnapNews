@@ -1,6 +1,8 @@
 // En üstte duracak olan widget.
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/profileController.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserProfileEdit extends StatefulWidget {
@@ -16,6 +18,7 @@ class UserProfileEdit extends StatefulWidget {
 
 class _UserProfileEditState extends State<UserProfileEdit> {
   File? _image;
+  ProfileController _profileController = Get.find();
 
   @override
   void initState() {
@@ -30,6 +33,9 @@ class _UserProfileEditState extends State<UserProfileEdit> {
     setState(() {
       _image = File(returnedImage.path);
     });
+
+    // Resmi yükle ve kullanıcı modelini güncelle
+    await _profileController.uploadImageAndUpdateProfile(_image!);
   }
 
   @override
@@ -84,8 +90,12 @@ class _UserProfileEditState extends State<UserProfileEdit> {
                       backgroundImage: _image != null
                           ? FileImage(_image!)
                               as ImageProvider // Display the picked image
-                          : NetworkImage(
-                              'https://via.placeholder.com/150'), // Default placeholder image
+                          : NetworkImage(_profileController
+                                      .userModel.profileURL ==
+                                  ""
+                              ? 'https://via.placeholder.com/150'
+                              : _profileController.userModel
+                                  .profileURL!), // Default placeholder image
                       backgroundColor: Colors.transparent,
                     ),
                   ),

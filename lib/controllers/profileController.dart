@@ -1,5 +1,7 @@
 import 'dart:ffi';
+import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/services/ProfileService.dart';
 import 'package:get/get.dart';
@@ -55,5 +57,31 @@ class ProfileController extends GetxController {
 
     userModel.username = name.value;
     ProfileService.instance.updateUser(userModel);
+  }
+
+  Future<void> uploadImageAndUpdateProfile(File imageFile) async {
+    // Firebase Storage referansı alın
+    final Reference storageRef = FirebaseStorage.instance
+        .ref()
+        .child('user_profile_images')
+        .child('${userModel.uid}.jpg');
+
+    try {
+      // Resmi Storage'a yükle
+      await storageRef.putFile(imageFile);
+
+      // Resmin URL'sini al
+      final String downloadURL = await storageRef.getDownloadURL();
+
+      // Kullanıcı modelinin profileURL özelliğini güncelle
+      userModel.profileURL = downloadURL;
+      imageUrl.value = downloadURL;
+
+      // Kullanıcı modelini güncelle
+      await ProfileService.instance.updateUser(userModel);
+    } catch (error) {
+      // Hata durumunda burada işlemler yapılabilir, örneğin kullanıcıya bir hata mesajı gösterilebilir.
+      print('Image upload failed: $error');
+    }
   }
 }

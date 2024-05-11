@@ -20,7 +20,7 @@ class UserModel {
     password = json['password'];
     country = json['country'];
     uid = json['uid'];
-    profileURL = json["profileURL"];
+    profileURL = json["profileURL"] ?? "";
   }
 
   Map<String, dynamic> toJson() {
