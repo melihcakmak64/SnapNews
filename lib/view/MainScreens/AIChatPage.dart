@@ -39,8 +39,8 @@ class _ChatPageState extends State<ChatPage> {
                     child: Column(
                       children: [
                         Image.asset(
-                          'images/ai_logo.jpeg',
-                          width: 50,
+                          'images/ai_logo.png',
+                          width: 60,
                         ),
                         SizedBox(
                           height: 20,
