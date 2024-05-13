@@ -30,27 +30,21 @@ class _InterestsScreenState extends State<InterestsScreen> {
     final double screenWidth = screenSize.size.width;
     final double screenHeight = screenSize.size.height;
 
-    List<String> interests = [
-      'Music',
-      'Sport',
-      'Travel',
-      'Nature',
-      'Finance',
-      'Political',
-      'Crime',
-      'Economy',
-      'Education',
-      'Technology',
-      'Game',
-      'Top News',
-      'Health',
-      'Cinema',
-      'Art',
-      'Television',
-      'Series',
-      'Magazine',
-      'Science'
-    ];
+    var categoriesMap = {
+      '3-sayfa': 'Crime',
+      'dunya': 'World',
+      'yasam': 'Life',
+      'egitim': 'Education',
+      'ekonomi': 'Economy',
+      'finans': 'Finance',
+      'guncel': 'Latest',
+      'politika': 'Political',
+      'saglik': 'Health',
+      'son-dakika': 'NewsBreak',
+      'spor': 'Sport',
+      'turizm': 'Tourism',
+      'müzik': 'Music'
+    };
 
     return Scaffold(
       appBar: AppBar(
@@ -64,13 +58,15 @@ class _InterestsScreenState extends State<InterestsScreen> {
           Expanded(
             child: GridView.count(
               crossAxisCount: 3,
-              children: List.generate(interests.length, (index) {
+              children: List.generate(categoriesMap.length, (index) {
+                String key = categoriesMap.keys.elementAt(index);
+                String value = categoriesMap[key]!;
                 return TypeWidget(
-                  newsType: interests[index],
+                  newsType: value,
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,
-                  isSelected: selectedInterests.contains(interests[index]),
-                  onTap: () => toggleInterest(interests[index]),
+                  isSelected: selectedInterests.contains(value),
+                  onTap: () => toggleInterest(value),
                 );
               }),
             ),
