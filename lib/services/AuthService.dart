@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/view/HomePage.dart';
+import 'package:flutter_application_1/view/MainScreens/InterestPage.dart';
 import 'package:flutter_application_1/view/MainScreens/NewsHomePage.dart';
 import 'package:get/get.dart';
 
@@ -30,7 +31,7 @@ class AuthService {
             password: password,
             country: country,
             userId: userCredential.user!.uid);
-        Get.offAll(HomePage());
+        Get.offAll(InterestsScreen(previousPage: 'Register'));
         await getCurrentUserModel();
       }
     } on FirebaseAuthException catch (e) {
@@ -74,7 +75,6 @@ class AuthService {
 
   Future<void> signOut() async {
     return await firebaseAuth.signOut();
-    
   }
 
   Future<void> getCurrentUserModel() async {

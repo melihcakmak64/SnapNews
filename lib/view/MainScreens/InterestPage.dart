@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/view/HomePage.dart';
 import 'package:flutter_application_1/view/widgets/newsTypeWidget.dart';
 
 class InterestsScreen extends StatefulWidget {
+  final String previousPage; // Add a parameter to track the previous page
+
+  InterestsScreen({required this.previousPage});
+
   @override
   _InterestsScreenState createState() => _InterestsScreenState();
 }
@@ -21,7 +26,15 @@ class _InterestsScreenState extends State<InterestsScreen> {
 
   void navigateToNextScreen() {
     // Implement the navigation to next screen and pass the selectedInterests
-    print(selectedInterests); // Just for demonstration
+    if (widget.previousPage == 'Profile') {
+      Navigator.pop(context); // Navigate back to the Profile page
+    } else if (widget.previousPage == 'Register') {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  HomePage())); // Navigate to the main screen
+    }
   }
 
   @override
@@ -72,7 +85,9 @@ class _InterestsScreenState extends State<InterestsScreen> {
             ),
           ),
           ElevatedButton(
-            onPressed: navigateToNextScreen,
+            onPressed: () {
+              navigateToNextScreen();
+            },
             child: Text(
               'Approve',
               style: TextStyle(

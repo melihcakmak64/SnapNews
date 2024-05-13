@@ -38,7 +38,8 @@ class ProfilePage extends StatelessWidget {
                     ListTile(
                       title: const Text('Preferences'),
                       trailing: InkWell(
-                        onTap: _profileController.goToInterests,
+                        onTap: () =>
+                            _profileController.goToInterests("Profile"),
                         child: const Icon(Icons.arrow_forward_ios),
                       ),
                     ),
