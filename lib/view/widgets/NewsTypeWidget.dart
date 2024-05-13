@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// This is a widget for prints and use for selecting news type that we interested in.
+// This is a widget for selecting news type that we are interested in.
 class TypeWidget extends StatelessWidget {
   final String newsType;
   final bool isSelected;
@@ -40,7 +40,7 @@ class TypeWidget extends StatelessWidget {
               ),
             ),
             Icon(
-              Icons.add,
+              isSelected ? Icons.remove : Icons.add,
               size: screenWidth / 20,
               color: isSelected ? Colors.white : Colors.black,
             ),

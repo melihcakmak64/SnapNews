@@ -7,14 +7,14 @@ class InterestsScreen extends StatefulWidget {
 }
 
 class _InterestsScreenState extends State<InterestsScreen> {
-  List<String> selectedInterests = [];
+  Map<String, String> selectedInterests = {};
 
-  void toggleInterest(String interest) {
+  void toggleInterest(String key, String value) {
     setState(() {
-      if (selectedInterests.contains(interest)) {
-        selectedInterests.remove(interest);
+      if (selectedInterests.containsKey(key)) {
+        selectedInterests.remove(key);
       } else {
-        selectedInterests.add(interest);
+        selectedInterests[key] = value;
       }
     });
   }
@@ -65,8 +65,8 @@ class _InterestsScreenState extends State<InterestsScreen> {
                   newsType: value,
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,
-                  isSelected: selectedInterests.contains(value),
-                  onTap: () => toggleInterest(value),
+                  isSelected: selectedInterests.containsKey(key),
+                  onTap: () => toggleInterest(key, value),
                 );
               }),
             ),
