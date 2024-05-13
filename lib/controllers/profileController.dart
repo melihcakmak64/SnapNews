@@ -7,7 +7,6 @@ import 'package:flutter_application_1/services/ProfileService.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/profileScreens/accountTile.dart';
 import 'package:flutter_application_1/profileScreens/editProfileScreen.dart';
 import 'package:flutter_application_1/profileScreens/userProfileStless.dart';
 import 'package:flutter_application_1/services/AuthService.dart';
