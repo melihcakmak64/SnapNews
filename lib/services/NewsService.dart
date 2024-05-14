@@ -34,20 +34,28 @@ class NewsService {
       final response = await client
           .get(Uri.parse("https://www.haberler.com/" + url), headers: {
         'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, Gecko) Chrome/58.0.3029.110 Safari/537.36'
       });
 
       if (response.statusCode == 200) {
         dom.Document document = parser.parse(response.body);
-        dom.Element? mainContent =
-            document.querySelector('main.hbptContent.haber_metni');
-        if (mainContent != null) {
-          List<dom.Element> elements = mainContent.querySelectorAll('h3, p');
+
+        dom.Element? mainContainer =
+            document.querySelector('div.hbContainer.p0.hbdetay');
+        if (mainContainer != null) {
+          List<dom.Element> elements =
+              mainContainer.querySelectorAll('h2, h3, p');
           String lastKey = '';
           List<Map<String, String>> texts = [];
+          bool firstH2Processed = false;
 
           for (var element in elements) {
-            if (element.localName == 'h3') {
+            if (element.localName == 'h2' && !firstH2Processed) {
+              lastKey = element.text.trim().replaceAll(RegExp(r'\s+'), ' ');
+              firstH2Processed = true;
+            } else if ((element.localName == 'h2' ||
+                    element.localName == 'h3') &&
+                firstH2Processed) {
               lastKey = element.text.trim().replaceAll(RegExp(r'\s+'), ' ');
               texts.add({lastKey: ''});
             } else if (element.localName == 'p') {
@@ -57,19 +65,27 @@ class NewsService {
                 // Boş olan p elementlerini atla
                 continue;
               }
-              if (lastKey.isEmpty) {
-                // İlk h3 bulunmadan önceki p elementlerini atla
-                continue;
+              if (texts.isNotEmpty && texts.last.containsKey(lastKey)) {
+                texts.last[lastKey] = texts.last[lastKey]! + trimmedText + '\n';
               } else {
-                if (texts.isNotEmpty && texts.last.containsKey(lastKey)) {
-                  texts.last[lastKey] =
-                      texts.last[lastKey]! + trimmedText + '\n';
-                } else {
-                  texts.add({lastKey: trimmedText});
-                }
+                texts.add({lastKey: trimmedText});
               }
             }
           }
+
+          // İlk <h2> ve onu takip eden ilk <p> elementini ilk anahtar-değer çifti olarak ayarlamak
+          String firstKey = '';
+          String firstValue = '';
+
+          if (firstH2Processed &&
+              texts.isNotEmpty &&
+              texts.first.containsKey(lastKey)) {
+            firstKey = lastKey;
+            firstValue = texts.first[lastKey]!;
+            texts.removeAt(0);
+            texts.insert(0, {firstKey: firstValue});
+          }
+
           return texts;
         }
       }
