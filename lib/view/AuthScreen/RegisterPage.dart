@@ -1,7 +1,6 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/registerController.dart';
-import 'package:flutter_application_1/services/AuthService.dart';
 import 'package:flutter_application_1/view/AuthScreen/LoginPage.dart';
 import 'package:flutter_application_1/view/widgets/myButton.dart';
 import 'package:flutter_application_1/view/widgets/myTextButton.dart';
@@ -64,12 +63,6 @@ class RegisterPage extends StatelessWidget {
                 onTap: () async {
                   await _registerController.register();
                 },
-              ),
-              GoogleAuthButton(
-                onPressed: () {},
-              ),
-              FacebookAuthButton(
-                onPressed: () {},
               ),
               MyTextButton(
                   buttonText: "You already have account? Login",

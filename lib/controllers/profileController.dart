@@ -1,19 +1,10 @@
-import 'dart:ffi';
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/services/ProfileService.dart';
 import 'package:get/get.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/profileScreens/accountTile.dart';
 import 'package:flutter_application_1/profileScreens/editProfileScreen.dart';
-import 'package:flutter_application_1/profileScreens/userProfileStless.dart';
 import 'package:flutter_application_1/services/AuthService.dart';
-import 'package:flutter_application_1/view/AuthScreen/LoginPage.dart';
-import 'package:flutter_application_1/view/MainScreens/InterestPage.dart';
-import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
   // Eğer gerekiyorsa, kullanıcı bilgilerini burada saklayabilirsiniz
@@ -38,10 +29,6 @@ class ProfileController extends GetxController {
 
   void goToEditProfile() {
     Get.to(EditSettingsScreen());
-  }
-
-  void goToInterests(String _previousPage) {
-    Get.to(InterestsScreen(previousPage: _previousPage));
   }
 
   void logOut() {

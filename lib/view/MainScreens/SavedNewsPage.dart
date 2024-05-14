@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/newsController.dart';
 import 'package:flutter_application_1/view/widgets/blogTileWidget.dart';
-import 'package:flutter_application_1/view/widgets/newsPreviewWidget.dart';
 import 'package:get/get.dart';
 
 class SavedNewsScreen extends StatelessWidget {

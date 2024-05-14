@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/view/HomePage.dart';
-import 'package:flutter_application_1/view/MainScreens/InterestPage.dart';
-import 'package:flutter_application_1/view/MainScreens/NewsHomePage.dart';
 import 'package:get/get.dart';
 
 class AuthService {
@@ -24,6 +22,7 @@ class AuthService {
     try {
       final UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
+
       if (userCredential.user != null) {
         await _registerUser(
             username: username,
@@ -109,5 +108,34 @@ class AuthService {
       Get.snackbar("Şifre değiştirme hatası", e.message!,
           backgroundColor: Colors.red);
     }
+  }
+
+  Future<void> resetPassword(String _email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: _email);
+
+      Get.snackbar(
+          "Email Sended", "Email is sended.Please check your email address.",
+          backgroundColor: Colors.green, colorText: Colors.white);
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar("Error message",
+          "There is an error.Please enter valid email address!!",
+          backgroundColor: Colors.red, colorText: Colors.white);
+    }
+  }
+
+  Future<void> updateUser(UserModel newUser) async {
+    final currentUser = firebaseAuth.currentUser;
+    if (currentUser == null) {
+      throw Exception('No user signed in');
+    }
+
+    final userData = await userCollection.doc(currentUser.uid).get();
+    if (!userData.exists) {
+      throw Exception('User data not found');
+    }
+
+    // Update user data with the new user model
+    await userCollection.doc(currentUser.uid).update(newUser.toJson());
   }
 }

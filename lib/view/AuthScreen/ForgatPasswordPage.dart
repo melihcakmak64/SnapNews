@@ -1,10 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/services/AuthService.dart';
 import 'package:flutter_application_1/view/widgets/myButton.dart';
 import 'package:get/get.dart';
 
 class ResetPasswordPage extends StatelessWidget {
-  const ResetPasswordPage({super.key});
+  ResetPasswordPage({super.key});
+  final _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +27,20 @@ class ResetPasswordPage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: const TextField(
-                decoration:
-                    InputDecoration(hintText: "Email", label: Text("Email")),
+              child: TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                    hintText: "Email", label: Text("Email")),
               ),
             ),
-            const MyButton(buttonText: "Reset", buttonColor: Colors.grey)
+            MyButton(
+              buttonText: "Reset",
+              buttonColor: Colors.grey,
+              onTap: () async {
+                await AuthService.instance
+                    .resetPassword(_emailController.text.trim());
+              },
+            )
           ],
         ),
       ),

@@ -24,6 +24,11 @@ class LoginController extends GetxController {
         email: email.value,
         password: password.value,
       );
+      if (AuthService.instance.currentUser != null) {
+        final currentUser = AuthService.instance.currentUser;
+        currentUser.password = password.value;
+        await AuthService.instance.updateUser(currentUser);
+      }
     }
   }
 }

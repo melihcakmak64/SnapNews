@@ -3,10 +3,6 @@ import 'package:flutter_application_1/controllers/newsController.dart';
 import 'package:flutter_application_1/models/article_model.dart';
 import 'package:flutter_application_1/view/widgets/toogleButton.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:html/parser.dart' as parser;
-import 'package:html/dom.dart' as dom;
-import 'package:http/http.dart' as http;
 
 class DetailsScreen extends StatefulWidget {
   final Article news;

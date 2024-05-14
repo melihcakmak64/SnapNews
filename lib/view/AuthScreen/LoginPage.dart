@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/loginController.dart';
 import 'package:flutter_application_1/view/AuthScreen/ForgatPasswordPage.dart';
 import 'package:flutter_application_1/view/AuthScreen/RegisterPage.dart';
-import 'package:flutter_application_1/view/HomePage.dart';
-import 'package:flutter_application_1/view/MainScreens/NewsHomePage.dart';
-import 'package:flutter_application_1/view/widgets/loginRow.dart';
 import 'package:flutter_application_1/view/widgets/myButton.dart';
 import 'package:flutter_application_1/view/widgets/myTextButton.dart';
 import 'package:get/get.dart';
@@ -59,14 +56,8 @@ class LoginPage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ResetPasswordPage()));
+                            builder: (context) => ResetPasswordPage()));
                   }),
-              GoogleAuthButton(
-                onPressed: () {},
-              ),
-              FacebookAuthButton(
-                onPressed: () {},
-              ),
               MyTextButton(
                   buttonText: "Don't have an account? Register",
                   onTap: () {

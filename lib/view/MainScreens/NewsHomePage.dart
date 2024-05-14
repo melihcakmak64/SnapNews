@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/newsController.dart';
 import 'package:flutter_application_1/view/widgets/blogTileWidget.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
 class NewsScreen extends StatelessWidget {
   final NewsController newsController = Get.put(NewsController());
