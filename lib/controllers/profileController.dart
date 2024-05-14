@@ -40,8 +40,8 @@ class ProfileController extends GetxController {
     Get.to(EditSettingsScreen());
   }
 
-  void goToInterests() {
-    Get.to(InterestsScreen());
+  void goToInterests(String _previousPage) {
+    Get.to(InterestsScreen(previousPage: _previousPage));
   }
 
   void logOut() {

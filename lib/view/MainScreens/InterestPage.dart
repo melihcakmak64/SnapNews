@@ -1,27 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/view/HomePage.dart';
 import 'package:flutter_application_1/view/widgets/newsTypeWidget.dart';
 
 class InterestsScreen extends StatefulWidget {
+  final String previousPage; // Add a parameter to track the previous page
+
+  InterestsScreen({required this.previousPage});
+
   @override
   _InterestsScreenState createState() => _InterestsScreenState();
 }
 
 class _InterestsScreenState extends State<InterestsScreen> {
-  List<String> selectedInterests = [];
+  Map<String, String> selectedInterests = {};
 
-  void toggleInterest(String interest) {
+  void toggleInterest(String key, String value) {
     setState(() {
-      if (selectedInterests.contains(interest)) {
-        selectedInterests.remove(interest);
+      if (selectedInterests.containsKey(key)) {
+        selectedInterests.remove(key);
       } else {
-        selectedInterests.add(interest);
+        selectedInterests[key] = value;
       }
     });
   }
 
   void navigateToNextScreen() {
     // Implement the navigation to next screen and pass the selectedInterests
-    print(selectedInterests); // Just for demonstration
+    if (widget.previousPage == 'Profile') {
+      Navigator.pop(context); // Navigate back to the Profile page
+    } else if (widget.previousPage == 'Register') {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  HomePage())); // Navigate to the main screen
+    }
   }
 
   @override
@@ -30,27 +43,21 @@ class _InterestsScreenState extends State<InterestsScreen> {
     final double screenWidth = screenSize.size.width;
     final double screenHeight = screenSize.size.height;
 
-    List<String> interests = [
-      'Music',
-      'Sport',
-      'Travel',
-      'Nature',
-      'Finance',
-      'Political',
-      'Crime',
-      'Economy',
-      'Education',
-      'Technology',
-      'Game',
-      'Top News',
-      'Health',
-      'Cinema',
-      'Art',
-      'Television',
-      'Series',
-      'Magazine',
-      'Science'
-    ];
+    var categoriesMap = {
+      '3-sayfa': 'Crime',
+      'dunya': 'World',
+      'yasam': 'Life',
+      'egitim': 'Education',
+      'ekonomi': 'Economy',
+      'finans': 'Finance',
+      'guncel': 'Latest',
+      'politika': 'Political',
+      'saglik': 'Health',
+      'son-dakika': 'NewsBreak',
+      'spor': 'Sport',
+      'turizm': 'Tourism',
+      'müzik': 'Music'
+    };
 
     return Scaffold(
       appBar: AppBar(
@@ -64,19 +71,23 @@ class _InterestsScreenState extends State<InterestsScreen> {
           Expanded(
             child: GridView.count(
               crossAxisCount: 3,
-              children: List.generate(interests.length, (index) {
+              children: List.generate(categoriesMap.length, (index) {
+                String key = categoriesMap.keys.elementAt(index);
+                String value = categoriesMap[key]!;
                 return TypeWidget(
-                  newsType: interests[index],
+                  newsType: value,
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,
-                  isSelected: selectedInterests.contains(interests[index]),
-                  onTap: () => toggleInterest(interests[index]),
+                  isSelected: selectedInterests.containsKey(key),
+                  onTap: () => toggleInterest(key, value),
                 );
               }),
             ),
           ),
           ElevatedButton(
-            onPressed: navigateToNextScreen,
+            onPressed: () {
+              navigateToNextScreen();
+            },
             child: Text(
               'Approve',
               style: TextStyle(
