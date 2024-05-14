@@ -37,7 +37,7 @@ class BlogTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CachedNetworkImage(
-                imageUrl: news1.urlToImage ?? "",
+                imageUrl: news1.imageUrl ?? "",
                 height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,

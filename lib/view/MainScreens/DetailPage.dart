@@ -4,10 +4,14 @@ import 'package:flutter_application_1/models/article_model.dart';
 import 'package:flutter_application_1/view/widgets/toogleButton.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:html/parser.dart' as parser;
+import 'package:html/dom.dart' as dom;
+import 'package:http/http.dart' as http;
 
 class DetailsScreen extends StatefulWidget {
   final Article news;
   final bool initialBookmarkStatus;
+  List<Map<String, String>> contentList = [];
 
   DetailsScreen({
     Key? key,
@@ -31,10 +35,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> parts = widget.news.publishedAt!.split('T');
-    String date = parts[0];
-    String time = parts[1].substring(0, 8);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('News'),
@@ -45,7 +45,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              widget.news.urlToImage!,
+              widget.news.imageUrl!,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -53,21 +53,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
               padding: EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Text(
-                    date,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Text(
-                    time,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   Expanded(child: SizedBox(width: 5)),
                   ToogleButton(
                     isBookmarked: isBookmarked,
@@ -120,7 +105,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                widget.news.source?.name ?? '',
+                "Haberler.Com" ?? '',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -133,7 +118,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 Padding(
                   padding: const EdgeInsets.all(25),
                   child: ElevatedButton(
-                    onPressed: () {}, // Implement summarization
+                    onPressed: () {
+                      print(widget.news.category);
+                    }, // Implement summarization
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.grey[300],
@@ -146,6 +133,63 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ],
             ),
+            FutureBuilder(
+              future: newsController.fetchContent(widget.news.url),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  final texts = snapshot.data;
+                  if (texts != null && texts.isNotEmpty) {
+                    return ListView.builder(
+                      shrinkWrap: true, // Needed to nest ListView inside Column
+                      physics:
+                          NeverScrollableScrollPhysics(), // to disable ListView's own scrolling
+                      itemCount: texts.length,
+                      itemBuilder: (context, index) {
+                        Map<String, String> mapItem = texts[index];
+                        print(mapItem);
+                        String key = mapItem.keys.first;
+                        String value = mapItem.values.first;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            key.isNotEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0),
+                                    child: Text(
+                                      key,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 2.0),
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  fontSize:
+                                      16, // p elementlerinden gelen değerler için yazı tipi boyutunu burada ayarlayabilirsiniz
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    return Text("No articles found");
+                  }
+                }
+              },
+            )
           ],
         ),
       ),

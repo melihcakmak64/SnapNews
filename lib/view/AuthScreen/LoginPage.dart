@@ -41,6 +41,7 @@ class LoginPage extends StatelessWidget {
                 onChanged: (value) {
                   _loginController.password.value = value;
                 },
+                obscureText: true,
                 decoration: const InputDecoration(
                     hintText: "Enter your password",
                     label: Text("Enter your Password")),

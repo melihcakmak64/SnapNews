@@ -1,50 +1,56 @@
-import 'package:flutter_application_1/models/source_moderl.dart';
+import 'package:html/dom.dart' as dom;
 
 class Article {
-  Source? source;
-  String? author;
-  String? title;
-  String? description;
-  String? url;
-  String? urlToImage;
-  String? publishedAt;
-  String? content;
+  final String title;
+  final String url;
+  final String imageUrl;
+  final String description;
+  final String category;
 
-  Article({
-    this.source,
-    this.author,
-    this.title,
-    this.description,
-    this.url,
-    this.urlToImage,
-    this.publishedAt,
-    this.content,
-  });
+  Article(
+      {required this.title,
+      required this.url,
+      required this.imageUrl,
+      required this.description,
+      required this.category});
 
-  Article.fromJson(Map<String, dynamic> json) {
-    source = json['source'] != null ? Source.fromJson(json['source']) : null;
-    author = json['author'];
-    title = json['title'];
-    description = json['description'];
-    url = json['url'];
-    urlToImage = json['urlToImage'];
-    publishedAt = json['publishedAt'];
-    content = json['content'];
+  // Factory constructor to create a NewsArticle from parsed HTML data
+  factory Article.fromElement(dom.Element element) {
+    var title = element.attributes['title'] ?? 'No title';
+    var url = element.attributes['href'] ?? 'No URL';
+    var imageElement = element.querySelector('img');
+    var imageUrl = imageElement?.attributes['data-src'] ??
+        imageElement?.attributes['src'] ??
+        'No image URL';
+    var description = element.querySelector('p')?.text ?? 'No description';
+    var category = url.split('/')[1];
+
+    return Article(
+        title: title,
+        url: url,
+        imageUrl: imageUrl,
+        description: description,
+        category: category);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    if (source != null) {
-      data['source'] = source!.toJson();
-    }
-    data['author'] = author;
-    data['title'] = title;
-    data['description'] = description;
-    data['url'] = url;
-    data['urlToImage'] = urlToImage;
-    data['publishedAt'] = publishedAt;
-    data['content'] = content;
-    return data;
+    return {
+      'title': title,
+      'url': url,
+      'imageUrl': imageUrl,
+      'description': description,
+      'category': category,
+    };
+  }
+
+  factory Article.fromJson(Map<String, dynamic> json) {
+    return Article(
+      title: json['title'],
+      url: json['url'],
+      imageUrl: json['imageUrl'],
+      description: json['description'],
+      category: json['category'],
+    );
   }
 
   @override

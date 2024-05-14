@@ -6,41 +6,83 @@ import 'package:get/get.dart';
 
 class NewsController extends GetxController {
   var articles = <Article>[].obs;
+  var globalArticles = <Article>[].obs;
   var filteredArticles = <Article>[].obs;
   var favorites = <Article>[].obs;
   var isLoading = true.obs;
+  var isGlobal = false.obs;
   TextEditingController searchController = TextEditingController();
   late final NewsService newsService;
+
+  var selectedCategories = <String>[].obs; // Seçilen kategorilerin listesi
+
+  var categoriesMap = {
+    '3-sayfa': 'Crime',
+    'dunya': 'World',
+    'yasam': 'Life',
+    'egitim': 'Education',
+    'ekonomi': 'Economy',
+    'finans': 'Finance',
+    'guncel': 'Latest',
+    'politika': 'Political',
+    'saglik': 'Health',
+    'son-dakika': 'NewsBreak',
+    'spor': 'Sport',
+    'turizm': 'Tourism',
+    'müzik': 'Music'
+  };
 
   @override
   void onInit() async {
     super.onInit();
     newsService = NewsService();
     await fetchFavorites();
-    await getNews('bbc-news');
+    await getNews();
   }
 
   void filterArticles(String query) {
-    var filtered = articles.where((article) {
-      return article.title!.toLowerCase().contains(query.toLowerCase());
-    }).toList();
-    filteredArticles.assignAll(filtered);
+    if (isGlobal.value == false) {
+      var filtered = articles.where((article) {
+        return article.title!.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+      filteredArticles.assignAll(filtered);
+    } else {
+      var filtered = globalArticles.where((article) {
+        return article.title!.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+      filteredArticles.assignAll(filtered);
+    }
+  }
+
+  void filterArticlesByCategory() {
+    filterArticles("");
+
+    if (selectedCategories.isNotEmpty) {
+      var filtered = filteredArticles
+          .where(
+              (p0) => selectedCategories.contains(categoriesMap[p0.category]))
+          .toList();
+
+      filteredArticles.assignAll(filtered);
+    }
   }
 
   Future<void> refreshNews() async {
     try {
-      getNews('bbc-news');
+      getNews();
     } catch (e) {
       print("Error refreshing news: $e");
     }
   }
 
-  Future<void> getNews(String channel) async {
+  Future<void> getNews() async {
     isLoading.value = true;
     try {
-      articles.value = await newsService.fetchArticles();
+      articles.value =
+          await newsService.fetchNewsArticles("https://www.haberler.com");
       articles.removeWhere((element) =>
-          element.urlToImage == null || element.description == null);
+          element.imageUrl == "No image URL" ||
+          element.description == "No description");
 
       filterArticles(searchController.text);
     } catch (e) {
@@ -48,6 +90,45 @@ class NewsController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> getGlobalNews() async {
+    isLoading.value = true;
+    try {
+      // Örnek olarak 10 adet Article oluşturma işlemi
+      List<Article> globalArticlesList = [];
+      for (int i = 0; i < 10; i++) {
+        // Burada Article'ın özelliklerini doldurmanız gerekecek.
+        // Örnek olarak bir Article oluşturup globalArticles listesine ekleyebilirsiniz.
+        Article article = Article(
+          title: "Global Article $i",
+          url: "https://example.com/article$i",
+          imageUrl:
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Global_News.svg/800px-Global_News.svg.png",
+          description: "Description for global article $i",
+          category: "Global",
+        );
+        globalArticlesList.add(article);
+      }
+
+      // Oluşturulan Article'ları globalArticles listesine atama
+      globalArticles.assignAll(globalArticlesList);
+      filterArticles(searchController.text);
+    } catch (e) {
+      print("Error getting global news: $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> changeSource() async {
+    isGlobal.value = !isGlobal.value;
+    await getGlobalNews();
+  }
+
+  Future<List<Map<String, String>>> fetchContent(String url) async {
+    final news = await newsService.fetchContent(url);
+    return news;
   }
 
   Future<void> fetchFavorites() async {
