@@ -158,25 +158,24 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           children: [
                             key.isNotEmpty
                                 ? Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0),
+                                    padding:
+                                        const EdgeInsets.only(left: 6, top: 10),
                                     child: Text(
                                       key,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                        fontSize: 20,
                                       ),
                                     ),
                                   )
                                 : Container(),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 2.0),
+                              padding: const EdgeInsets.only(left: 6, top: 10),
                               child: Text(
                                 value,
                                 style: TextStyle(
                                   fontSize:
-                                      16, // p elementlerinden gelen değerler için yazı tipi boyutunu burada ayarlayabilirsiniz
+                                      20, // p elementlerinden gelen değerler için yazı tipi boyutunu burada ayarlayabilirsiniz
                                 ),
                               ),
                             ),

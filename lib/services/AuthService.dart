@@ -31,7 +31,7 @@ class AuthService {
             password: password,
             country: country,
             userId: userCredential.user!.uid);
-        Get.offAll(InterestsScreen(previousPage: 'Register'));
+        Get.offAll(HomePage());
         await getCurrentUserModel();
       }
     } on FirebaseAuthException catch (e) {
