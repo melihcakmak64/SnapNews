@@ -40,6 +40,74 @@ class NewsService {
       if (response.statusCode == 200) {
         dom.Document document = parser.parse(response.body);
 
+        // <div id="icerikAlani" class="detay" property="articleBody"> içindeki elementleri al
+        dom.Element? mainContainer =
+            document.querySelector('div#icerikAlani.detay');
+        if (mainContainer != null) {
+          List<dom.Element> elements =
+              mainContainer.querySelectorAll('h2, h3, p');
+          String lastKey = '';
+          List<Map<String, String>> texts = [];
+          bool firstH2Processed = false;
+          String firstH2Value = '';
+
+          for (var element in elements) {
+            if (element.localName == 'h2' && !firstH2Processed) {
+              lastKey = element.text.trim().replaceAll(RegExp(r'\s+'), ' ');
+              firstH2Processed = true;
+            } else if ((element.localName == 'h2' ||
+                    element.localName == 'h3') &&
+                firstH2Processed) {
+              lastKey = element.text.trim().replaceAll(RegExp(r'\s+'), ' ');
+              texts.add({lastKey: ''});
+            } else if (element.localName == 'p') {
+              String trimmedText =
+                  element.text.trim().replaceAll(RegExp(r'\s+'), ' ');
+              if (trimmedText.isEmpty) {
+                // Boş olan p elementlerini atla
+                continue;
+              }
+              if (!firstH2Processed) {
+                // İlk h2 elementinden önceki p elementlerini atla
+                continue;
+              }
+              if (texts.isNotEmpty && texts.last.containsKey(lastKey)) {
+                texts.last[lastKey] = texts.last[lastKey]! + trimmedText + '\n';
+              } else {
+                texts.add({lastKey: trimmedText});
+              }
+            }
+          }
+
+          // İlk h2 ve onu takip eden ilk p elementini ilk anahtar-değer çifti olarak ayarlamak
+          if (firstH2Processed && firstH2Value.isNotEmpty) {
+            texts.insert(0, {lastKey: firstH2Value});
+          }
+
+          return texts;
+        }
+      }
+    } catch (e) {
+      // Handle exceptions by logging or displaying a message
+      print('Failed to fetch or process content: $e');
+    } finally {
+      client.close();
+    }
+    return [];
+  }
+
+  /* Future<List<Map<String, String>>> fetchContent(String url) async {
+    var client = http.Client();
+    try {
+      final response = await client
+          .get(Uri.parse("https://www.haberler.com/" + url), headers: {
+        'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, Gecko) Chrome/58.0.3029.110 Safari/537.36'
+      });
+
+      if (response.statusCode == 200) {
+        dom.Document document = parser.parse(response.body);
+
         dom.Element? mainContainer =
             document.querySelector('div.hbContainer.p0.hbdetay');
         if (mainContainer != null) {
@@ -96,5 +164,5 @@ class NewsService {
       client.close();
     }
     return [];
-  }
+  } */
 }

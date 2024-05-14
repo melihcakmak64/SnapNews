@@ -35,26 +35,73 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    ListTile(
-                      title: const Text('Preferences'),
-                      trailing: InkWell(
-                        onTap: () =>
-                            _profileController.goToInterests("Profile"),
-                        child: const Icon(Icons.arrow_forward_ios),
+                    InkWell(
+                      onTap: () => _profileController.goToInterests("Profile"),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 17.0,
+                                right: 205,
+                              ),
+                              child: Text(
+                                'Preferences',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                ),
+                              ),
+                            ),
+                            const Icon(Icons.arrow_forward_ios),
+                          ],
+                        ),
                       ),
                     ),
-                    ListTile(
-                      title: const Text('Settings'),
-                      trailing: InkWell(
-                        onTap: _profileController.goToEditProfile,
-                        child: const Icon(Icons.settings),
+                    InkWell(
+                      onTap: _profileController.goToEditProfile,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 17.0,
+                                right: 234,
+                              ),
+                              child: Text(
+                                'Settings',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                ),
+                              ),
+                            ),
+                            const Icon(Icons.settings),
+                          ],
+                        ),
                       ),
                     ),
-                    ListTile(
-                      title: const Text('Log out'),
-                      trailing: InkWell(
-                        onTap: _profileController.logOut,
-                        child: const Icon(Icons.logout),
+                    InkWell(
+                      onTap: _profileController.logOut,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 17.0,
+                                right: 245,
+                              ),
+                              child: Text(
+                                'Logout',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                ),
+                              ),
+                            ),
+                            const Icon(Icons.logout),
+                          ],
+                        ),
                       ),
                     ),
                   ],
