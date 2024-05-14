@@ -1,4 +1,3 @@
-import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/registerController.dart';
 import 'package:flutter_application_1/view/AuthScreen/LoginPage.dart';
