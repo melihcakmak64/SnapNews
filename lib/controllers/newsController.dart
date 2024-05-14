@@ -85,6 +85,7 @@ class NewsController extends GetxController {
           element.description == "No description");
 
       filterArticles(searchController.text);
+      filterArticlesByCategory();
     } catch (e) {
       print("Error getting news: $e");
     } finally {

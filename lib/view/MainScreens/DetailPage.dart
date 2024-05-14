@@ -3,11 +3,12 @@ import 'package:flutter_application_1/controllers/newsController.dart';
 import 'package:flutter_application_1/models/article_model.dart';
 import 'package:flutter_application_1/view/widgets/toogleButton.dart';
 import 'package:get/get.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
 class DetailsScreen extends StatefulWidget {
   final Article news;
   final bool initialBookmarkStatus;
-  List<Map<String, String>> contentList = [];
+  List<Map<String, String>> texts = [];
 
   DetailsScreen({
     Key? key,
@@ -22,11 +23,43 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   late bool isBookmarked;
   NewsController newsController = Get.find();
+  bool isLoadingSummary = false;
+  bool isExpanded = false;
+  String summary = '';
 
   @override
   void initState() {
     super.initState();
     isBookmarked = widget.initialBookmarkStatus;
+  }
+
+  Future<void> fetchSummary() async {
+    setState(() {
+      isLoadingSummary = true;
+    });
+    String concatenated =
+        widget.texts.map((map) => map.values.join(" ")).join(" ");
+    print(concatenated);
+    String summaryText = await searchContent("Summarize " + concatenated);
+    setState(() {
+      summary = summaryText;
+      isLoadingSummary = false;
+    });
+  }
+
+  Future<String> searchContent(String givenPrompt) async {
+    if (givenPrompt.isNotEmpty) {
+      final model = GenerativeModel(
+        model: 'gemini-pro',
+        apiKey: "AIzaSyAQy7pghDRagRCMCfSkIjVcjLy4idzShkc",
+      );
+
+      final prompt = givenPrompt;
+      final content = [Content.text(prompt)];
+      final response = await model.generateContent(content);
+      return response.text!;
+    }
+    return '';
   }
 
   @override
@@ -55,7 +88,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     onTap: () {
                       if (isBookmarked == false) {
                         newsController.favorites.add(widget.news);
-                        print(newsController.favorites);
                       } else {
                         newsController.favorites.remove(widget.news);
                       }
@@ -77,58 +109,37 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Summary:",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey[800],
-                ),
+            ExpansionTile(
+              title: Text(
+                "Tap here to read the summary",
+                style: TextStyle(color: Colors.grey[800], fontSize: 18),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                widget.news.description!,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey[800],
-                ),
+              subtitle: Text(
+                "Expand for more",
+                style: TextStyle(color: Colors.grey[600], fontSize: 14),
               ),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Haberler.Com" ?? '',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                Expanded(child: SizedBox(width: 5)),
+              initiallyExpanded: isExpanded,
+              onExpansionChanged: (bool expanded) {
+                setState(() {
+                  isExpanded = expanded;
+                  if (isExpanded && summary.isEmpty && !isLoadingSummary) {
+                    fetchSummary();
+                  }
+                });
+              },
+              children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      print(widget.news.category);
-                    }, // Implement summarization
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.grey[300],
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    child: Text("Summarize"),
-                  ),
+                  padding: EdgeInsets.all(8.0),
+                  child: isLoadingSummary
+                      ? CircularProgressIndicator()
+                      : Text(
+                          summary,
+                          style: TextStyle(fontSize: 16),
+                        ),
                 ),
               ],
             ),
+            SizedBox(height: 10),
             FutureBuilder(
               future: newsController.fetchContent(widget.news.url),
               builder: (context, snapshot) {
@@ -137,16 +148,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  final texts = snapshot.data;
-                  if (texts != null && texts.isNotEmpty) {
+                  widget.texts = snapshot.data!;
+                  if (widget.texts != null && widget.texts.isNotEmpty) {
                     return ListView.builder(
                       shrinkWrap: true, // Needed to nest ListView inside Column
                       physics:
                           NeverScrollableScrollPhysics(), // to disable ListView's own scrolling
-                      itemCount: texts.length,
+                      itemCount: widget.texts.length,
                       itemBuilder: (context, index) {
-                        Map<String, String> mapItem = texts[index];
-                        print(mapItem);
+                        Map<String, String> mapItem = widget.texts[index];
                         String key = mapItem.keys.first;
                         String value = mapItem.values.first;
                         return Column(

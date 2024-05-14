@@ -1,4 +1,3 @@
-import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/loginController.dart';
 import 'package:flutter_application_1/view/AuthScreen/ForgatPasswordPage.dart';
