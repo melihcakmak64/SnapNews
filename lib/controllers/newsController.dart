@@ -39,9 +39,7 @@ class NewsController extends GetxController {
     isLoading.value = true;
     try {
       articles.value = await newsService.fetchArticles();
-      articles.removeWhere((element) =>
-          element.urlToImage == null || element.description == null);
-
+      articles.value.where((element) => element.description != null);
       filterArticles(searchController.text);
     } catch (e) {
       print("Error getting news: $e");
