@@ -4,6 +4,7 @@ import 'package:flutter_application_1/models/article_model.dart';
 import 'package:flutter_application_1/view/widgets/toogleButton.dart';
 import 'package:get/get.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:lottie/lottie.dart';
 
 class DetailsScreen extends StatefulWidget {
   final Article news;
@@ -143,7 +144,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: isLoadingSummary
-                      ? CircularProgressIndicator()
+                      ? Lottie.asset('images/animation.json')
                       : Text(
                           summary,
                           style: TextStyle(fontSize: 16),
@@ -157,7 +158,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     future: newsController.fetchContent(widget.news.url),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return Center(
+                            child: Lottie.asset('images/animation.json'));
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {
