@@ -15,7 +15,6 @@ class BlogTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isFavorite = newsController.favorites.contains(news1);
     return GestureDetector(
       onTap: () {
         Navigator.push(

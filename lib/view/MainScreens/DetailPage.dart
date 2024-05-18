@@ -32,9 +32,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void initState() {
     super.initState();
     isBookmarked = widget.initialBookmarkStatus;
-
+    print(widget.news.content);
     // Check if the content is null to determine if it's a Turkish source
-    if (widget.news.content == null) {
+    if (widget.news.content == null || widget.news.content!.isEmpty) {
+      //Boş sözlük atanıyor onun yerine null değer atanmalı
       isTurkishSource = true;
     } else {
       // Populate texts directly from the news content
@@ -161,6 +162,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         return Text('Error: ${snapshot.error}');
                       } else {
                         widget.texts = snapshot.data!;
+                        print(widget.texts);
                         if (widget.texts != null && widget.texts.isNotEmpty) {
                           return ListView.builder(
                             shrinkWrap:
