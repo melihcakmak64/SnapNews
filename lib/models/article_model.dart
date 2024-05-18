@@ -6,15 +6,18 @@ class Article {
   final String imageUrl;
   final String description;
   final String category;
+  final Map<String, String>? content; // Nullable content attribute
 
-  Article(
-      {required this.title,
-      required this.url,
-      required this.imageUrl,
-      required this.description,
-      required this.category});
+  Article({
+    required this.title,
+    required this.url,
+    required this.imageUrl,
+    required this.description,
+    required this.category,
+    this.content,
+  });
 
-  // Factory constructor to create a NewsArticle from parsed HTML data
+  // Factory constructor to create an Article from parsed HTML data
   factory Article.fromElement(dom.Element element) {
     var title = element.attributes['title'] ?? 'No title';
     var url = element.attributes['href'] ?? 'No URL';
@@ -25,12 +28,25 @@ class Article {
     var description = element.querySelector('p')?.text ?? 'No description';
     var category = url.split('/')[1];
 
+    // Example of parsing content from HTML (update this logic based on your actual HTML structure)
+    Map<String, String>? content;
+    var contentElements = element.querySelectorAll('.content-section');
+    if (contentElements.isNotEmpty) {
+      content = {};
+      for (var section in contentElements) {
+        var heading = section.querySelector('h2')?.text ?? 'No heading';
+        var body = section.querySelector('p')?.text ?? 'No content';
+        content[heading] = body;
+      }
+    }
+
     return Article(
         title: title,
         url: url,
         imageUrl: imageUrl,
         description: description,
-        category: category);
+        category: category,
+        content: content);
   }
 
   Map<String, dynamic> toJson() {
@@ -40,6 +56,7 @@ class Article {
       'imageUrl': imageUrl,
       'description': description,
       'category': category,
+      'content': content,
     };
   }
 
@@ -50,6 +67,7 @@ class Article {
       imageUrl: json['imageUrl'],
       description: json['description'],
       category: json['category'],
+      content: Map<String, String>.from(json['content'] ?? {}),
     );
   }
 

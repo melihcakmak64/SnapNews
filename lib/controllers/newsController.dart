@@ -98,16 +98,31 @@ class NewsController extends GetxController {
     try {
       // Örnek olarak 10 adet Article oluşturma işlemi
       List<Article> globalArticlesList = [];
-      for (int i = 0; i < 10; i++) {
+      for (int i = 0; i < 5; i++) {
         // Burada Article'ın özelliklerini doldurmanız gerekecek.
         // Örnek olarak bir Article oluşturup globalArticles listesine ekleyebilirsiniz.
         Article article = Article(
-          title: "Global Article $i",
-          url: "https://example.com/article$i",
+          title: "I warmed up by stretching in a jail cell - Scheffler",
+          url: "https://www.example.com/news/scheffler-jail-cell",
           imageUrl:
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Global_News.svg/800px-Global_News.svg.png",
-          description: "Description for global article $i",
-          category: "Global",
+              "https://ichef.bbci.co.uk/news/2048/cpsprodpb/b7fc/live/beb41fa0-148b-11ef-9b12-1ba8f95c4917.jpg",
+          description:
+              "Scottie Scheffler was arrested before his second round at the US PGA Championship.",
+          category: "Sports",
+          content: {
+            "Introduction":
+                "Scottie Scheffler warmed up for his second round at the US PGA Championship by 'stretching in a jail cell' after being arrested on Friday morning.",
+            "Incident Details":
+                "The world number one was charged with second-degree assault of a police officer, third-degree criminal mischief, reckless driving and disregarding traffic signals from an officer following an incident outside Valhalla Golf Club.",
+            "Scheffler's Statement":
+                "My main focus after getting arrested was wondering if I could be able to come back out here and play, and fortunately I was able to do that,' he said. 'I was never angry, just in shock and I was shaking the whole time. It was definitely a new feeling for me.",
+            "Police Interaction":
+                "The officer that took me to the jail was very kind. He was great. We had a nice chat in the car, that kind of helped calm me down.",
+            "Post-Release":
+                "After his release, Scheffler arrived at Valhalla Golf Club 54 minutes before his tee-time and went on to post a five-under 66 to improve his overall score to nine under.",
+            "Additional Statement":
+                "He said his 'heart goes out to the family' of a man struck and killed by a shuttle bus near the club on Friday morning. That incident led to the traffic jam that Scheffler was trying to avoid in an effort to get to the golf club for his morning tee-time."
+          },
         );
         globalArticlesList.add(article);
       }
