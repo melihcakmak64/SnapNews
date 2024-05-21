@@ -102,28 +102,37 @@ class NewsController extends GetxController {
         // Burada Article'ın özelliklerini doldurmanız gerekecek.
         // Örnek olarak bir Article oluşturup globalArticles listesine ekleyebilirsiniz.
         Article article = Article(
-          title: "I warmed up by stretching in a jail cell - Scheffler",
-          url: "https://www.example.com/news/scheffler-jail-cell",
-          imageUrl:
-              "https://ichef.bbci.co.uk/news/2048/cpsprodpb/b7fc/live/beb41fa0-148b-11ef-9b12-1ba8f95c4917.jpg",
-          description:
-              "Scottie Scheffler was arrested before his second round at the US PGA Championship.",
-          category: "Sports",
-          content: {
-            "Introduction":
-                "Scottie Scheffler warmed up for his second round at the US PGA Championship by 'stretching in a jail cell' after being arrested on Friday morning.",
-            "Incident Details":
-                "The world number one was charged with second-degree assault of a police officer, third-degree criminal mischief, reckless driving and disregarding traffic signals from an officer following an incident outside Valhalla Golf Club.",
-            "Scheffler's Statement":
-                "My main focus after getting arrested was wondering if I could be able to come back out here and play, and fortunately I was able to do that,' he said. 'I was never angry, just in shock and I was shaking the whole time. It was definitely a new feeling for me.",
-            "Police Interaction":
-                "The officer that took me to the jail was very kind. He was great. We had a nice chat in the car, that kind of helped calm me down.",
-            "Post-Release":
-                "After his release, Scheffler arrived at Valhalla Golf Club 54 minutes before his tee-time and went on to post a five-under 66 to improve his overall score to nine under.",
-            "Additional Statement":
-                "He said his 'heart goes out to the family' of a man struck and killed by a shuttle bus near the club on Friday morning. That incident led to the traffic jam that Scheffler was trying to avoid in an effort to get to the golf club for his morning tee-time."
-          },
-        );
+            title:
+                "Cannes Film Festival workers call for strike for better pay and conditions",
+            url:
+                "https://www.trtworld.com/magazine/was-eurovision-2024-the-most-politicised-eurovision-ever-18162930",
+            imageUrl:
+                "https://cdn-i.pr.trt.com.tr/trtworld/w424/h240/q80/19800736_2-0-1244-700.jpeg",
+            description:
+                "Members of a collective called Sous les Ecrans la Deche ('Poverty Behind the Screens') say they don't intend to cause significant disruption but want their demands heard.",
+            category: "sanat",
+            content: {
+              "_1":
+                  "Workers at the Cannes Film Festival have called for a strike over pay and conditions, just a week before the event was due to start.",
+              "_2":
+                  "Members of a collective called Sous les Ecrans la Deche ('Poverty Behind the Screens') said on Monday that they did not intend to cause significant disruption but wanted to draw attention to long-running demands.",
+              "_3":
+                  "'The strike will not put the opening of the festival at risk but there could be disruptions as it goes on,' a spokesperson told AFP.",
+              "_4":
+                  "The group said it represented around 100 workers, including projectionists, programmers, press agents and ticket sellers.",
+              "_5":
+                  "They work on short-term contracts but do not fall under France's unemployment insurance scheme for freelance artists and technicians in the cultural sector, which tops up salaries to a minimum wage.",
+              "_6":
+                  "'Most of us will have to give up working, which will jeopardise the events,' the group said in a statement.",
+              "_7":
+                  "'The forthcoming opening of the Cannes Film Festival has a bitter taste for us this year,' it added.",
+              "_8":
+                  "The festival organisers did not immediately respond to a request for comment.",
+              "_9":
+                  "The event on the French Cote d'Azur is considered the most prestigious for the world's film industry, attracting some 40,000 people each year.",
+              "_10":
+                  "This year's festival is due to run from May 14 to 25, with icons including Francis Ford Coppola, Georges Lucas and Meryl Streep set to attend."
+            });
         globalArticlesList.add(article);
       }
 

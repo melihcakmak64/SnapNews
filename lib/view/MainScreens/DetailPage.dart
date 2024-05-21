@@ -41,7 +41,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     } else {
       // Populate texts directly from the news content
       widget.news.content!.forEach((key, value) {
-        widget.texts.add({key: value});
+        var newKey = key.contains("_") ? " " : key;
+        widget.texts.add({newKey: value});
       });
     }
   }
@@ -182,7 +183,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   key.isNotEmpty
                                       ? Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 6, top: 10),
+                                              left: 6, top: 15),
                                           child: Text(
                                             key,
                                             style: TextStyle(
@@ -192,9 +193,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                           ),
                                         )
                                       : Container(),
+                                  SizedBox(),
                                   Padding(
                                     padding:
-                                        const EdgeInsets.only(left: 6, top: 10),
+                                        const EdgeInsets.only(left: 6, top: 25),
                                     child: Text(
                                       value,
                                       style: TextStyle(
