@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/models/article_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
@@ -90,5 +91,26 @@ class NewsService {
       client.close();
     }
     return [];
+  }
+
+  Future<void> addGlobalNews(Article article) async {
+    CollectionReference articles =
+        FirebaseFirestore.instance.collection('global_news');
+
+    await articles.add(article.toJson());
+  }
+
+  Future<List<Article>> fetchGlobalNews() async {
+    CollectionReference articles =
+        FirebaseFirestore.instance.collection('global_news');
+
+    QuerySnapshot querySnapshot = await articles.get();
+    List<QueryDocumentSnapshot> docs = querySnapshot.docs;
+
+    List<Article> articlesList = docs
+        .map((doc) => Article.fromJson(doc.data() as Map<String, dynamic>))
+        .toList();
+
+    return articlesList;
   }
 }

@@ -96,48 +96,10 @@ class NewsController extends GetxController {
   Future<void> getGlobalNews() async {
     isLoading.value = true;
     try {
-      // Örnek olarak 10 adet Article oluşturma işlemi
-      List<Article> globalArticlesList = [];
-      for (int i = 0; i < 5; i++) {
-        // Burada Article'ın özelliklerini doldurmanız gerekecek.
-        // Örnek olarak bir Article oluşturup globalArticles listesine ekleyebilirsiniz.
-        Article article = Article(
-            title:
-                "Cannes Film Festival workers call for strike for better pay and conditions",
-            url:
-                "https://www.trtworld.com/magazine/was-eurovision-2024-the-most-politicised-eurovision-ever-18162930",
-            imageUrl:
-                "https://cdn-i.pr.trt.com.tr/trtworld/w424/h240/q80/19800736_2-0-1244-700.jpeg",
-            description:
-                "Members of a collective called Sous les Ecrans la Deche ('Poverty Behind the Screens') say they don't intend to cause significant disruption but want their demands heard.",
-            category: "sanat",
-            content: {
-              "_1":
-                  "Workers at the Cannes Film Festival have called for a strike over pay and conditions, just a week before the event was due to start.",
-              "_2":
-                  "Members of a collective called Sous les Ecrans la Deche ('Poverty Behind the Screens') said on Monday that they did not intend to cause significant disruption but wanted to draw attention to long-running demands.",
-              "_3":
-                  "'The strike will not put the opening of the festival at risk but there could be disruptions as it goes on,' a spokesperson told AFP.",
-              "_4":
-                  "The group said it represented around 100 workers, including projectionists, programmers, press agents and ticket sellers.",
-              "_5":
-                  "They work on short-term contracts but do not fall under France's unemployment insurance scheme for freelance artists and technicians in the cultural sector, which tops up salaries to a minimum wage.",
-              "_6":
-                  "'Most of us will have to give up working, which will jeopardise the events,' the group said in a statement.",
-              "_7":
-                  "'The forthcoming opening of the Cannes Film Festival has a bitter taste for us this year,' it added.",
-              "_8":
-                  "The festival organisers did not immediately respond to a request for comment.",
-              "_9":
-                  "The event on the French Cote d'Azur is considered the most prestigious for the world's film industry, attracting some 40,000 people each year.",
-              "_10":
-                  "This year's festival is due to run from May 14 to 25, with icons including Francis Ford Coppola, Georges Lucas and Meryl Streep set to attend."
-            });
-        globalArticlesList.add(article);
-      }
+      List<Article> articles = await newsService.fetchGlobalNews();
 
       // Oluşturulan Article'ları globalArticles listesine atama
-      globalArticles.assignAll(globalArticlesList);
+      globalArticles.assignAll(articles);
       filterArticles(searchController.text);
     } catch (e) {
       print("Error getting global news: $e");
