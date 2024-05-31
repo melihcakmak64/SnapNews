@@ -17,9 +17,33 @@ class NewsScreen extends StatelessWidget {
                 onPressed: () {
                   newsController.changeSource();
                 },
-                icon: Image.asset(newsController.isGlobal.value
-                    ? "images/earth.png"
-                    : "images/turkey.png")),
+                icon: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          color: newsController.isGlobal.value
+                              ? Colors.transparent
+                              : Colors.black,
+                          width: 3)),
+                  child: Image.asset(
+                    "images/turkey.png",
+                  ),
+                )),
+          ),
+          Obx(
+            () => IconButton(
+                onPressed: () {
+                  newsController.changeSource();
+                },
+                icon: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: newsController.isGlobal.value
+                                ? Colors.black
+                                : Colors.transparent,
+                            width: 3)),
+                    child: Image.asset("images/earth.png"))),
           ),
         ],
         centerTitle: true,
