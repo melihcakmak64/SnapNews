@@ -58,7 +58,7 @@ class RegisterPage extends StatelessWidget {
               ),
               MyButton(
                 buttonText: "REGISTER",
-                buttonColor: Colors.grey,
+                buttonColor: Colors.green,
                 onTap: () async {
                   await _registerController.register();
                 },

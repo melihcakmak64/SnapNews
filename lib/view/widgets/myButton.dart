@@ -24,7 +24,11 @@ class MyButton extends StatelessWidget {
             color: buttonColor,
             borderRadius: BorderRadius.circular(30),
           ),
-          child: Center(child: Text(buttonText)),
+          child: Center(
+              child: Text(
+            buttonText,
+            style: TextStyle(color: Colors.white),
+          )),
         ),
       ),
     );
