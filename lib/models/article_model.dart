@@ -49,6 +49,30 @@ class Article {
         content: content);
   }
 
+  factory Article.fromGlobal(dom.Element element) {
+    var titleElement = element.querySelector('.article-card__title span');
+    var title = titleElement?.text ?? 'No title';
+
+    var urlElement = element.querySelector('.u-clickable-card__link');
+    var url =
+        'https://www.aljazeera.com' + (urlElement?.attributes['href'] ?? '');
+
+    var imageElement = element.querySelector('.article-card__image');
+    var imageUrl = imageElement?.attributes['src'] ?? '';
+
+    var descriptionElement =
+        element.querySelector('.article-card__excerpt span');
+    var description = descriptionElement?.text ?? 'No description';
+
+    return Article(
+      title: title,
+      url: url,
+      imageUrl: imageUrl,
+      description: description,
+      category: '',
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'title': title,

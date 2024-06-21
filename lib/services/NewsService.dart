@@ -101,6 +101,38 @@ class NewsService {
   }
 
   Future<List<Article>> fetchGlobalNews() async {
+    final response = await http.get(Uri.parse('https://www.aljazeera.com'));
+
+    if (response.statusCode == 200) {
+      final document = parser.parse(response.body);
+      final containerInner = document.querySelector('.container__inner');
+      if (containerInner == null) {
+        throw Exception('Could not find .container__inner');
+      }
+
+      final homepageFeedContainer =
+          containerInner.querySelector('#homepage-feed-container');
+      if (homepageFeedContainer == null) {
+        throw Exception('Could not find #homepage-feed-container');
+      }
+
+      final articleElements = homepageFeedContainer
+          .querySelectorAll('.article-card--home-page-feed');
+
+      List<Article> articles = [];
+
+      articleElements.forEach((element) {
+        var article = Article.fromGlobal(element);
+        articles.add(article);
+      });
+
+      return articles;
+    } else {
+      throw Exception('Failed to load articles');
+    }
+  }
+
+  /* Future<List<Article>> fetchGlobalNews() async {
     CollectionReference articles =
         FirebaseFirestore.instance.collection('global_news');
 
@@ -112,5 +144,5 @@ class NewsService {
         .toList();
 
     return articlesList;
-  }
+  } */
 }
