@@ -190,11 +190,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                             ),
                                           ),
                                         )
-                                      : Container(),
+                                      : SizedBox(),
                                   SizedBox(),
                                   Padding(
                                     padding:
-                                        const EdgeInsets.only(left: 6, top: 25),
+                                        const EdgeInsets.only(left: 7, top: 25),
                                     child: Text(
                                       value,
                                       style: TextStyle(

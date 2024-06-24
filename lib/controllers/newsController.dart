@@ -114,7 +114,17 @@ class NewsController extends GetxController {
   }
 
   Future<List<Map<String, String>>> fetchContent(String url) async {
-    final news = await newsService.fetchContent(url);
+    if (!isGlobal.value) {
+      final news = await newsService.fetchContent(url);
+      return news;
+    } else {
+      final news = await newsService.fetchContentGlobal(url);
+      return news;
+    }
+  }
+
+  Future<List<Map<String, String>>> fetchContentGlobal(String url) async {
+    final news = await newsService.fetchContentGlobal(url);
     return news;
   }
 

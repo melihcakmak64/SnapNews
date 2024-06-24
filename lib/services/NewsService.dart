@@ -100,33 +100,66 @@ class NewsService {
     await articles.add(article.toJson());
   }
 
-  Future<List<Article>> fetchGlobalNews() async {
-    final response = await http.get(Uri.parse('https://www.aljazeera.com'));
+  Future<List<Map<String, String>>> fetchContentGlobal(String url) async {
+    // Ensure the URL starts with "https://news.sky.com/"
+    if (!url.startsWith('https://news.sky.com/')) {
+      url = 'https://news.sky.com' + url;
+    }
 
-    if (response.statusCode == 200) {
-      final document = parser.parse(response.body);
-      final containerInner = document.querySelector('.container__inner');
-      if (containerInner == null) {
-        throw Exception('Could not find .container__inner');
-      }
-
-      final homepageFeedContainer =
-          containerInner.querySelector('#homepage-feed-container');
-      if (homepageFeedContainer == null) {
-        throw Exception('Could not find #homepage-feed-container');
-      }
-
-      final articleElements = homepageFeedContainer
-          .querySelectorAll('.article-card--home-page-feed');
-
-      List<Article> articles = [];
-
-      articleElements.forEach((element) {
-        var article = Article.fromGlobal(element);
-        articles.add(article);
+    var client = http.Client();
+    try {
+      final response = await client.get(Uri.parse(url), headers: {
+        'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, Gecko) Chrome/58.0.3029.110 Safari/537.36'
       });
 
-      return articles;
+      if (response.statusCode == 200) {
+        dom.Document document = parser.parse(response.body);
+
+        dom.Element? mainContainer = document.querySelector(
+            'div.sdc-article-body.sdc-article-body--story.sdc-article-body--lead');
+        if (mainContainer != null) {
+          List<dom.Element> elements = mainContainer.querySelectorAll('p');
+          List<Map<String, String>> texts = [];
+
+          for (var element in elements) {
+            // Skip paragraphs with specific classes
+            if (element.classes.contains('sdc-article-strapline__text') ||
+                element.classes.contains('ui-app-promo-cta') ||
+                element.classes.contains('ui-app-promo-headline') ||
+                element.querySelector('strong') != null) {
+              continue;
+            }
+
+            String trimmedText =
+                element.text.trim().replaceAll(RegExp(r'\s+'), ' ');
+            if (trimmedText.isNotEmpty) {
+              texts.add({'': trimmedText});
+            }
+          }
+
+          return texts;
+        }
+      }
+    } catch (e) {
+      // Handle exceptions by logging or displaying a message
+      print('Failed to fetch or process content: $e');
+    } finally {
+      client.close();
+    }
+    return [];
+  }
+
+  Future<List<Article>> fetchGlobalNews() async {
+    final response = await http.get(Uri.parse('https://news.sky.com/'));
+    if (response.statusCode == 200) {
+      var document = parser.parse(response.body);
+      var articleElements =
+          document.querySelectorAll('.grid-areas .grid-cell article');
+
+      return articleElements
+          .map((element) => Article.fromGlobal(element))
+          .toList();
     } else {
       throw Exception('Failed to load articles');
     }

@@ -50,26 +50,24 @@ class Article {
   }
 
   factory Article.fromGlobal(dom.Element element) {
-    var titleElement = element.querySelector('.article-card__title span');
+    var titleElement = element.querySelector('.ui-story-headline a');
     var title = titleElement?.text ?? 'No title';
 
-    var urlElement = element.querySelector('.u-clickable-card__link');
-    var url =
-        'https://www.aljazeera.com' + (urlElement?.attributes['href'] ?? '');
-
-    var imageElement = element.querySelector('.article-card__image');
-    var imageUrl = imageElement?.attributes['src'] ?? '';
-
-    var descriptionElement =
-        element.querySelector('.article-card__excerpt span');
-    var description = descriptionElement?.text ?? 'No description';
+    var url = titleElement?.attributes['href'] ?? 'No URL';
+    var imageElement = element.querySelector('img');
+    var imageUrl = imageElement?.attributes['src'] ?? 'No image URL';
+    var description =
+        element.querySelector('.ui-story-meta')?.text ?? 'No description';
+    var categoryElement = element.querySelector('.ui-label[data-type="tag"]');
+    var categoryHref = categoryElement?.attributes['href'] ?? '';
+    var category = categoryHref.split('/').last ?? 'No category';
 
     return Article(
       title: title,
       url: url,
       imageUrl: imageUrl,
       description: description,
-      category: '',
+      category: category,
     );
   }
 
