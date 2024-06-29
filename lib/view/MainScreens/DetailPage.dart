@@ -4,6 +4,7 @@ import 'package:flutter_application_1/models/article_model.dart';
 import 'package:flutter_application_1/view/widgets/toogleButton.dart';
 import 'package:get/get.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:lottie/lottie.dart';
 
 class DetailsScreen extends StatefulWidget {
   final Article news;
@@ -52,7 +53,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     });
     String concatenated =
         widget.texts.map((map) => map.values.join(" ")).join(" ");
-    print(concatenated);
     String summaryText = await searchContent("Summarize " + concatenated);
     setState(() {
       summary = summaryText;
@@ -124,11 +124,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
             ExpansionTile(
               title: Text(
-                "Tap here to read the summary",
+                newsController.isGlobal.value
+                    ? "Tap here to read the summary"
+                    : "Özeti okumak için tıklayın",
                 style: TextStyle(color: Colors.grey[800], fontSize: 18),
               ),
               subtitle: Text(
-                "Expand for more",
+                newsController.isGlobal.value
+                    ? "Expand for more"
+                    : "Daha fazlası için genişlet",
                 style: TextStyle(color: Colors.grey[600], fontSize: 14),
               ),
               initiallyExpanded: isExpanded,
@@ -144,7 +148,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: isLoadingSummary
-                      ? CircularProgressIndicator()
+                      ? Lottie.asset('images/animation.json')
                       : Text(
                           summary,
                           style: TextStyle(fontSize: 16),
@@ -158,7 +162,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     future: newsController.fetchContent(widget.news.url),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return Center(
+                          child: Lottie.asset('images/animation.json'),
+                        );
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {

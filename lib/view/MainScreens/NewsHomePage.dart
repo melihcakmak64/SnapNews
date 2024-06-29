@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/newsController.dart';
 import 'package:flutter_application_1/view/widgets/blogTileWidget.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class NewsScreen extends StatelessWidget {
   final NewsController newsController = Get.put(NewsController());
@@ -75,43 +76,52 @@ class NewsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              height: 40,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: newsController.categoriesMap.values.length,
-                itemBuilder: (context, index) {
-                  String item =
-                      newsController.categoriesMap.values.toList()[index];
+            Obx(() {
+              return newsController.isGlobal.value
+                  ? SizedBox(
+                      height: 40,
+                    )
+                  : Container(
+                      height: 40,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: newsController.categoriesMap.values.length,
+                        itemBuilder: (context, index) {
+                          String item = newsController.categoriesMap.values
+                              .toList()[index];
 
-                  return Obx(
-                    () {
-                      var selectedList = newsController.selectedCategories;
-                      Color color = selectedList.contains(item)
-                          ? Colors.red
-                          : Colors.blue;
-                      return TextButton(
-                          onPressed: () {
-                            if (selectedList.contains(item)) {
-                              selectedList.remove(item);
-                            } else {
-                              selectedList.add(item);
-                            }
-                            newsController.filterArticlesByCategory();
-                          },
-                          child: Text(
-                            item,
-                            style: TextStyle(color: color),
-                          ));
-                    },
-                  );
-                },
-              ),
-            ),
+                          return Obx(
+                            () {
+                              var selectedList =
+                                  newsController.selectedCategories;
+                              Color color = selectedList.contains(item)
+                                  ? Colors.red
+                                  : Colors.blue;
+                              return TextButton(
+                                  onPressed: () {
+                                    if (selectedList.contains(item)) {
+                                      selectedList.remove(item);
+                                    } else {
+                                      selectedList.add(item);
+                                    }
+                                    newsController.filterArticlesByCategory();
+                                  },
+                                  child: Text(
+                                    item,
+                                    style: TextStyle(color: color),
+                                  ));
+                            },
+                          );
+                        },
+                      ),
+                    );
+            }),
             Expanded(
               child: Obx(() {
                 if (newsController.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(
+                    child: Lottie.asset('images/animation.json'),
+                  );
                 } else if (newsController.filteredArticles.isEmpty) {
                   return const Center(child: Text('No news available'));
                 } else {
